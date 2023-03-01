@@ -1,4 +1,6 @@
-<script lang="tsx" setup></script>
+<script lang="tsx" setup>
+// Push
+</script>
 
 <template>
   <Html class="bg-bluecity-blue">
