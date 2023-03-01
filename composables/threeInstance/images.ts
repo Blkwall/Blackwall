@@ -18,6 +18,7 @@ export class ImageManager {
   imageSize = 10;
   imageGap = 0.5;
   loop: boolean = true;
+  fixLookAtAxis: boolean = true;
 
   constructor(threeInstance: ThreeInstance, images: Texture[], loop?: boolean) {
     this.threeInstance = threeInstance;
@@ -65,12 +66,12 @@ export class ImageManager {
       this.models.push(group);
     });
 
-    // if (this.loop) {
-    //   this.models.forEach((model) => {
-    //     const clone = model.clone();
-    //     this.models.push(clone);
-    //   });
-    // }
+    if (this.loop) {
+      this.models.slice(0, 1).forEach((model) => {
+        const clone = model.clone();
+        this.models.push(clone);
+      });
+    }
   }
 
   placeModels(helixCurve: HelixCurve) {
@@ -81,6 +82,7 @@ export class ImageManager {
       model.position.copy(point);
       this.threeInstance.scene.add(model);
     });
+    document.body.style.height = this.models.length * 100 + "vh";
   }
 
   update() {
@@ -88,7 +90,7 @@ export class ImageManager {
     this.models.forEach((model) => {
       const pos = model.position.clone();
       const fakeCameraPos = cameraPos;
-      fakeCameraPos.y = pos.y;
+      if (this.fixLookAtAxis) fakeCameraPos.y = pos.y;
       model.lookAt(fakeCameraPos);
     });
   }

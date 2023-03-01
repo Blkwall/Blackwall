@@ -4,6 +4,9 @@ import {
   Curve,
   Line,
   LineBasicMaterial,
+  Mesh,
+  MeshBasicMaterial,
+  SphereGeometry,
   Vector3,
 } from "three";
 import { ThreeInstance } from ".";
@@ -43,6 +46,7 @@ export class Spiral {
     radius: number;
     height: number;
   };
+  helperSphere: Mesh<SphereGeometry, MeshBasicMaterial>;
   constructor(instance: ThreeInstance) {
     this.instance = instance;
     this.material = new LineBasicMaterial({
@@ -55,6 +59,11 @@ export class Spiral {
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
     this.line = this.drawCurveLine();
     this.instance.scene.add(this.line);
+    this.helperSphere = new Mesh(
+      new SphereGeometry(2, 32, 32),
+      new MeshBasicMaterial({ color: 0xff0000 })
+    );
+    this.instance.scene.add(this.helperSphere);
   }
   updateCurve() {
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);

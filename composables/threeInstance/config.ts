@@ -40,6 +40,12 @@ export class ConfigManager {
       imageManager.drawModels(assets.textures);
       imageManager.placeModels(spiral.helixCurve);
     });
+    const fixLookAtAxis = {
+      fixLookAtAxis: this.instance.imageManager.fixLookAtAxis,
+    };
+    imageFolder.add(fixLookAtAxis, "fixLookAtAxis").onChange((value) => {
+      this.instance.imageManager.fixLookAtAxis = value;
+    });
 
     // CAMERA
     const cameraFolder = this.gui.addFolder("Camera");

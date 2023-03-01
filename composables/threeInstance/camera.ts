@@ -10,7 +10,7 @@ export class CameraManager {
   config: {
     distance: number;
   } = {
-    distance: 30,
+    distance: 15,
   };
 
   constructor(instance: ThreeInstance) {
@@ -26,17 +26,16 @@ export class CameraManager {
   update(progress: number) {
     const spiral = this.instance.spiral;
     const currentPoint = spiral.helixCurve.getPointAt(progress);
-    const direction = spiral.helixCurve.getTangentAt(progress);
-    // const direction = currentPoint.clone().normalize();
 
+    const center = new Vector3(0, currentPoint.y, 0);
+    const direction = currentPoint.clone().sub(center).normalize();
+    // console.log(direction);
     const cameraPos = currentPoint
       .clone()
-      .add(direction.multiplyScalar(this.config.distance))
-      .add(new Vector3(0, -1, 0));
-    // const cameraPos = new Vector3(0, currentPoint.y, 0);
+      .add(direction.multiplyScalar(this.config.distance));
     this.camera.position.copy(cameraPos);
-    const lookAtPos = new Vector3(0, cameraPos.y, 0);
-    this.camera.lookAt(lookAtPos);
+    this.camera.lookAt(center);
+    this.debugCamera.position.y = currentPoint.y;
 
     this.camera.updateProjectionMatrix();
   }

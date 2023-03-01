@@ -52,9 +52,6 @@ export class ThreeInstance {
     this.imageManager = new ImageManager(this, this.assets.textures);
     // Place images.
     this.imageManager.placeModels(this.spiral.helixCurve);
-
-    // TODO: move to scroll manager.
-    document.body.style.height = this.imageManager.models.length * 100 + "vh";
   }
 
   resize() {
@@ -79,6 +76,7 @@ export class ThreeInstance {
 
       this.cameraManager.helper.visible = false;
       this.spiral.line.visible = false;
+      this.spiral.helperSphere.visible = false;
       this.renderer.render(this.scene, camera);
 
       const debugWidth = window.innerWidth / 3;
@@ -92,6 +90,7 @@ export class ThreeInstance {
 
       this.cameraManager.helper.visible = true;
       this.spiral.line.visible = true;
+      this.spiral.helperSphere.visible = true;
       this.renderer.render(this.scene, debugCamera);
     } else {
       const width = window.innerWidth;
@@ -104,6 +103,7 @@ export class ThreeInstance {
       camera.updateProjectionMatrix();
       this.cameraManager.helper.visible = false;
       this.spiral.line.visible = false;
+      this.spiral.helperSphere.visible = false;
       this.renderer.render(this.scene, camera);
     }
   }
@@ -115,18 +115,32 @@ export class ThreeInstance {
 
     return progress;
   }
+
+  scrollDirection = 0;
+  lastScrollY = 0;
   update() {
-    if (this.progress > 0.95) {
+    if (this.lastScrollY < window.scrollY) {
+      this.scrollDirection = 1;
+    } else {
+      this.scrollDirection = -1;
+    }
+
+    if (this.progress > 0.95 && this.scrollDirection > 0) {
       const height = document.body.scrollHeight - window.innerHeight;
       window.scrollTo(0, height * 0.05);
     }
-    if (this.progress < 0.05) {
+    if (this.progress < 0.05 && this.scrollDirection < 0) {
       const height = document.body.scrollHeight - window.innerHeight;
       window.scrollTo(0, height * 0.95);
     }
 
+    this.spiral.helperSphere.position.copy(
+      this.spiral.helixCurve.getPointAt(this.progress)
+    );
     this.imageManager.update();
     this.cameraManager.update(this.progress);
+
+    this.lastScrollY = window.scrollY;
   }
   tick() {
     this.update();
