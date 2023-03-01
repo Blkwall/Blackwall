@@ -8,18 +8,17 @@ onMounted(async () => {
     console.error("No element to mount ThreeInstance to");
     return;
   }
+  const { $dat } = useNuxtApp();
   // Can't attach to ref because of Nuxt issues.
   const threeInstance = await ThreeInstance.load(el.value, [
+    "/images/Begin.jpg",
     "/images/1.jpg",
-    "/images/2.jpg",
-    "/images/2.jpg",
     "/images/2.jpg",
     "/images/3.jpg",
     "/images/4.jpg",
-    "/images/4.jpg",
-    "/images/4.jpg",
-    "/images/4.jpg",
+    "/images/End.jpg",
   ]);
+  threeInstance.configManager.init($dat);
   threeInstance.tick();
 });
 </script>

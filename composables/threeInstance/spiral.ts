@@ -8,7 +8,7 @@ import {
 } from "three";
 import { ThreeInstance } from ".";
 
-class HelixCurve extends Curve<Vector3> {
+export class HelixCurve extends Curve<Vector3> {
   radius: number;
   height: number;
   constructor(radius: number = 30, height: number = 150) {
@@ -39,14 +39,27 @@ export class Spiral {
   helixCurve: HelixCurve;
   line: Line;
   material: LineBasicMaterial;
+  config: {
+    radius: number;
+    height: number;
+  };
   constructor(instance: ThreeInstance) {
     this.instance = instance;
     this.material = new LineBasicMaterial({
       color: 0x0000ff,
     });
-    this.helixCurve = new HelixCurve(20, 100);
+    this.config = {
+      radius: 25,
+      height: 100,
+    };
+    this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
     this.line = this.drawCurveLine();
-    // this.instance.scene.add(this.line);
+    this.instance.scene.add(this.line);
+  }
+  updateCurve() {
+    this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
+    this.line.geometry.dispose();
+    this.line.geometry = this.drawCurveLine().geometry;
   }
 
   drawCurveLine() {
