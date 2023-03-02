@@ -13,6 +13,10 @@ module.exports = {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Helvetica Neue", "sans-serif"],
+      },
+    },
   },
 };
