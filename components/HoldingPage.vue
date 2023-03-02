@@ -4,23 +4,23 @@
   <div class="fixed fill">
     <header class="fixed top-0 left-0 w-full tracking-[0.035em] z-50">
       <!-- Desktop -->
-      <div class="justify-between hidden p-6 md:flex">
+      <div class="justify-between hidden p-6 leading-none md:flex">
         <div>Creative Duo</div>
         <a
-          class="transition-colors hover:text-gray-400"
+          class="transition-colors hover:text-[#65FF00]"
           href="mailto:info@blkwall.com"
           >info@blkwall.com</a
         >
         <div>Vimeo @blackwall</div>
         <a
-          class="transition-colors hover:text-gray-400"
+          class="transition-colors hover:text-[#65FF00]"
           href="https://www.instagram.com/__blackwall/?igshid=YmMyMTA2M2Y%3D"
           target="_blank"
           >Follow on Instagram</a
         >
       </div>
       <!-- Mobile -->
-      <div class="grid grid-cols-2 p-4 md:hidden">
+      <div class="grid grid-cols-2 p-4 pt-3 md:hidden">
         <div>
           <div>Creative Duo</div>
           <a href="mailto:info@blkwall.com">info@blkwall.com</a>
@@ -43,10 +43,10 @@
       </video>
     </div>
     <!-- Logo -->
-    <div class="absolute fill fill-center">
+    <div class="absolute z-20 fill fill-center">
       <div class="grid w-full md:grid-cols-12">
         <div class="col-span-8 md:col-start-3">
-          <SVGLogo class="w-full px-4" />
+          <SVGLogo class="w-full h-full px-4" />
         </div>
       </div>
     </div>
