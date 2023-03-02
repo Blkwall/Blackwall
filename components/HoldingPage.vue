@@ -11,7 +11,6 @@
           href="mailto:info@blkwall.com"
           >info@blkwall.com</a
         >
-        <div>Vimeo @blackwall</div>
         <a
           class="transition-colors hover:text-[#65FF00]"
           href="https://www.instagram.com/__blackwall/?igshid=YmMyMTA2M2Y%3D"
@@ -22,11 +21,9 @@
       <!-- Mobile -->
       <div class="grid grid-cols-2 p-4 pt-3 md:hidden">
         <div>
-          <div>Creative Duo</div>
           <a href="mailto:info@blkwall.com">info@blkwall.com</a>
         </div>
         <div>
-          <div>Vimeo @blackwall</div>
           <a
             href="https://www.instagram.com/__blackwall/?igshid=YmMyMTA2M2Y%3D"
             target="_blank"
