@@ -4,8 +4,8 @@
   <div class="fixed fill">
     <header class="fixed top-0 left-0 w-full tracking-[0.035em] z-50">
       <!-- Desktop -->
-      <div class="justify-between hidden p-6 leading-none md:flex">
-        <div>Creative Duo</div>
+      <div class="flex justify-between p-6 leading-none">
+        <div class="hidden md:block">Creative Duo</div>
         <a
           class="transition-colors hover:text-[#65FF00]"
           href="mailto:info@blkwall.com"
@@ -17,19 +17,6 @@
           target="_blank"
           >Follow on Instagram</a
         >
-      </div>
-      <!-- Mobile -->
-      <div class="grid grid-cols-2 p-4 pt-3 md:hidden">
-        <div>
-          <a href="mailto:info@blkwall.com">info@blkwall.com</a>
-        </div>
-        <div>
-          <a
-            href="https://www.instagram.com/__blackwall/?igshid=YmMyMTA2M2Y%3D"
-            target="_blank"
-            >Follow on Instagram</a
-          >
-        </div>
       </div>
     </header>
 
