@@ -8,7 +8,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer {
+@layer components {
   .fill {
     @apply top-0 left-0 w-full h-full;
   }
