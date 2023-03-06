@@ -11,12 +11,14 @@ onMounted(async () => {
   const { $dat } = useNuxtApp();
   // Can't attach to ref because of Nuxt issues.
   const threeInstance = await ThreeInstance.load(el.value, [
-    "/images/Begin.jpg",
-    "/images/1.jpg",
-    "/images/2.jpg",
-    "/images/3.jpg",
-    "/images/4.jpg",
-    "/images/End.jpg",
+    "/images/TA_fashion_2021_12_a.jpg",
+    "/images/TA_fashion_2021_13 copy.jpg",
+    "/images/TA_fashion_2021_17_b.jpg",
+    "/images/TA_fashion_2021_19.jpg",
+    "/images/TA_FX_2021_15.jpg",
+    "/images/TA_FX_2021_26_a.jpg",
+    "/images/TA_portrait_2021_19.jpg",
+    "/images/TA_portrait_2021_22copy.jpg",
   ]);
   threeInstance.configManager.init($dat);
   threeInstance.tick();
