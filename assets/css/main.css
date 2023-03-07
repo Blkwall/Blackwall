@@ -1,5 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("/assets/HelveticaNeueLTStd-Roman.woff") format("woff"),
+    url("/assets/HelveticaNeueLTStd-Roman.woff2") format("woff2");
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .fill {
+    @apply top-0 left-0 w-full h-full;
+  }
+  .fill-center {
+    @apply flex items-center justify-center;
+  }
+}
