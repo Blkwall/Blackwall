@@ -7,23 +7,33 @@ import {
   NormalBlending,
   PlaneGeometry,
   Texture,
+  Vector3,
 } from "three";
 
 import { ThreeInstance } from "./index";
 import { HelixCurve } from "./spiral";
 
+type ImageModel = {
+  group: Group;
+  direction?: Vector3;
+};
+
 export class ImageManager {
   threeInstance: ThreeInstance;
-  models: Group[] = [];
+  models: { [key: string]: ImageModel } = {};
   imageSize = 10;
   imageGap = 0.5;
   loop: boolean = true;
-  fixLookAtAxis: boolean = true;
+  lookAtCamera: boolean = false;
 
   constructor(threeInstance: ThreeInstance, images: Texture[], loop?: boolean) {
     this.threeInstance = threeInstance;
     this.loop = loop || this.loop;
     this.drawModels(images);
+  }
+
+  get totalModels() {
+    return Object.keys(this.models).length;
   }
 
   makeMaterial(texture: Texture, normalMode: boolean) {
@@ -37,12 +47,13 @@ export class ImageManager {
   }
 
   drawModels(images: Texture[]) {
-    this.models.forEach((model) => {
-      this.threeInstance.scene.remove(model);
+    // Reset models.
+    Object.keys(this.models).forEach((key: any) => {
+      this.threeInstance.scene.remove(this.models[key].group);
     });
+    this.models = {};
 
-    this.models = [];
-
+    // Add new models.
     Object.keys(images).forEach((key: any) => {
       const texture = images[key];
       const ratio = texture.image.height / texture.image.width;
@@ -63,35 +74,54 @@ export class ImageManager {
         mesh.position.z -= this.imageGap * i;
         group.add(mesh);
       }
-      this.models.push(group);
+
+      this.models[key] = {
+        group,
+      };
     });
 
+    // Set loop.
     if (this.loop) {
-      this.models.slice(0, 1).forEach((model) => {
-        const clone = model.clone();
-        this.models.push(clone);
-      });
+      const clone = {
+        group: this.models[0].group.clone(),
+        direction: this.models[0].direction,
+      };
+      this.models["clone"] = clone;
     }
   }
 
   placeModels(helixCurve: HelixCurve) {
-    this.models.forEach((model, index) => {
-      const alpha = index / (this.models.length - 1);
+    Object.keys(this.models).forEach((key: any, index: number) => {
+      const { group } = this.models[key];
+      const alpha = index / (this.totalModels - 1);
       const mappedAlpha = map(alpha, 0, 1, 0.05, 0.95);
       const point = helixCurve.getPointAt(mappedAlpha);
-      model.position.copy(point);
-      this.threeInstance.scene.add(model);
+
+      const center = new Vector3(0, point.y, 0);
+      const direction = point.clone().sub(center).normalize();
+      this.models[key].direction = point.clone().add(direction);
+      group.position.copy(point);
+
+      this.threeInstance.scene.add(group);
     });
-    document.body.style.height = this.models.length * 100 + "vh";
+
+    document.body.style.height = this.totalModels * 100 + "vh";
   }
 
   update() {
     const cameraPos = this.threeInstance.cameraManager.camera.position.clone();
-    this.models.forEach((model) => {
-      const pos = model.position.clone();
-      const fakeCameraPos = cameraPos;
-      if (this.fixLookAtAxis) fakeCameraPos.y = pos.y;
-      model.lookAt(fakeCameraPos);
+
+    Object.keys(this.models).forEach((key: any) => {
+      const { group, direction } = this.models[key];
+      if (!this.lookAtCamera && direction) group.lookAt(direction);
+      else group.lookAt(cameraPos);
     });
+
+    // this.models.forEach((model) => {
+    //   const pos = model.position.clone();
+    //   const fakeCameraPos = cameraPos;
+    //   if (this.fixLookAtAxis) fakeCameraPos.y = pos.y;
+    //   // model.lookAt(fakeCameraPos);
+    // });
   }
 }

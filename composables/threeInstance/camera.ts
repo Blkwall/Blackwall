@@ -29,7 +29,6 @@ export class CameraManager {
 
     const center = new Vector3(0, currentPoint.y, 0);
     const direction = currentPoint.clone().sub(center).normalize();
-    // console.log(direction);
     const cameraPos = currentPoint
       .clone()
       .add(direction.multiplyScalar(this.config.distance));

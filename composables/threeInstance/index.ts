@@ -6,7 +6,6 @@ import { ImageManager } from "./images";
 import { Lights } from "./lights";
 import { Spiral } from "./spiral";
 import { ConfigManager } from "./config";
-import { e } from "ofetch/dist/error-04138797";
 
 const config = {
   name: "Blackwall",
