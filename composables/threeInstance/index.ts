@@ -22,7 +22,9 @@ export class ThreeInstance {
   imageManager: ImageManager;
   spiral: Spiral;
 
-  debugMode = !false;
+  debugMode = false;
+
+  animationId = 0;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -145,10 +147,17 @@ export class ThreeInstance {
     this.update();
     this.render();
     this.stats.update();
-    requestAnimationFrame(() => this.tick());
+    this.animationId = requestAnimationFrame(() => this.tick());
   }
 
   static async load(el: HTMLElement, assets: string[]) {
     return new ThreeInstance(el, await loadAssets(assets));
+  }
+
+  destroy() {
+    document.body.style.height = "auto";
+    this.el.removeChild(this.renderer.domElement);
+    document.body.removeChild(this.stats.dom);
+    cancelAnimationFrame(this.animationId);
   }
 }

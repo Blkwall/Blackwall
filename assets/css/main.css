@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Helvetica Neue";
-  src: url("/assets/HelveticaNeueLTStd-Roman.woff") format("woff"),
-    url("/assets/HelveticaNeueLTStd-Roman.woff2") format("woff2");
+  src: url("/assets/fonts/HelveticaNeueLTStd-Roman.woff") format("woff"),
+    url("/assets/fonts/HelveticaNeueLTStd-Roman.woff2") format("woff2");
 }
 
 @tailwind base;

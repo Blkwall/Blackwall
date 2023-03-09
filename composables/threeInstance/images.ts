@@ -39,7 +39,7 @@ export class ImageManager {
   makeMaterial(texture: Texture, normalMode: boolean) {
     return new MeshBasicMaterial({
       map: texture,
-      side: DoubleSide,
+      // side: DoubleSide,
       transparent: true,
       color: 0xffffff,
       blending: normalMode ? NormalBlending : AdditiveBlending,

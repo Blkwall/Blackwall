@@ -3,6 +3,10 @@ const props = defineProps<{
   images: string[];
 }>();
 
+const emit = defineEmits<{
+  (e: "image-click", image: string): void;
+}>();
+
 // split images into rows of 2 or 3
 const rows = props.images.reduce((acc, image, index) => {
   const rowIndex = Math.floor(index / 3);
@@ -12,6 +16,10 @@ const rows = props.images.reduce((acc, image, index) => {
   acc[rowIndex].push(image);
   return acc;
 }, [] as string[][]);
+
+const onClick = (image: string) => {
+  emit("image-click", image);
+};
 </script>
 
 <template>
@@ -24,9 +32,9 @@ const rows = props.images.reduce((acc, image, index) => {
       v-for="image in row"
       :key="image"
     >
-      <NuxtLink :to="{ hash: '#' + image.slice(1) }">
+      <div @click="onClick(image)" class="transition-transform cursor-pointer">
         <img :src="image" />
-      </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
