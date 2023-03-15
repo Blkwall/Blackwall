@@ -17,17 +17,18 @@ onMounted(async () => {
 
   threeInstance = await ThreeInstance.load(el.value, [
     "/videos/testVideo.mp4",
+    "/videos/test_1.mp4",
     "/images/TA_fashion_2021_12_a.jpg",
     "/images/TA_fashion_2021_13 copy.jpg",
     "/images/TA_fashion_2021_17_b.jpg",
     "/videos/file_example_MP4_640_3MG.mp4",
     "/videos/testVideo.mp4",
     "/videos/file_example_MP4_640_3MG.mp4",
-    "/images/TA_fashion_2021_19.jpg",
-    "/images/TA_FX_2021_15.jpg",
-    "/images/TA_FX_2021_26_a.jpg",
-    "/images/TA_portrait_2021_19.jpg",
-    "/images/TA_portrait_2021_22copy.jpg",
+    // "/images/TA_fashion_2021_19.jpg",
+    // "/images/TA_FX_2021_15.jpg",
+    // "/images/TA_FX_2021_26_a.jpg",
+    // "/images/TA_portrait_2021_19.jpg",
+    // "/images/TA_portrait_2021_22copy.jpg",
   ]);
   // threeInstance.configManager.init($dat);
   threeInstance.tick();
