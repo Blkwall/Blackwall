@@ -19,29 +19,22 @@ const allValues = async <T extends object>(
 const textureLoader = new TextureLoader();
 
 export const loadAssets = (urls: string[]) => {
-  const imageUrls = urls.filter((url) => {
-    // check url is an image.
-    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
-  });
-  const videoUrls = urls.filter((url) => {
-    // check url is a video.
-    return url.match(/\.(mp4)$/) != null;
-  });
-
   return allValues({
-    textures: allValues(imageUrls.map((url) => textureLoader.loadAsync(url))),
-    videoTextures: allValues(
-      videoUrls.map((url) => {
-        var video = document.createElement("video");
-        video.setAttribute("src", url);
-        video.setAttribute("autoplay", "true");
-        video.setAttribute("loop", "true");
-        video.setAttribute("muted", "true");
-        video.setAttribute("playsinline", "true");
-        video.setAttribute("preload", "auto");
-
-        const texture = new VideoTexture(video);
-        return texture;
+    textures: allValues(
+      urls.map((url) => {
+        if (url.match(/\.(mp4)$/) != null) {
+          var video = document.createElement("video");
+          video.setAttribute("src", url);
+          video.setAttribute("autoplay", "true");
+          video.setAttribute("loop", "true");
+          video.setAttribute("muted", "true");
+          video.setAttribute("playsinline", "true");
+          video.setAttribute("preload", "auto");
+          const texture = new VideoTexture(video);
+          return texture;
+        } else {
+          return textureLoader.loadAsync(url);
+        }
       })
     ),
   });

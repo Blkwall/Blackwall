@@ -27,16 +27,14 @@ export class ObjectManager {
   loop: boolean = true;
   lookAtCamera: boolean = false;
 
-  constructor(
-    threeInstance: ThreeInstance,
-    textures: Texture[],
-    videoTextures: VideoTexture[],
-    loop?: boolean
-  ) {
+  constructor(threeInstance: ThreeInstance, loop?: boolean) {
     this.threeInstance = threeInstance;
     this.loop = loop || this.loop;
 
-    this.drawObjects(textures, videoTextures);
+    // Make texture array out of assets.
+    const textures = Object.values(threeInstance.assets.textures);
+
+    this.drawObjects(textures);
   }
 
   get totalObjects() {
@@ -46,7 +44,7 @@ export class ObjectManager {
   makeMaterial(texture: Texture, normalMode: boolean) {
     return new MeshBasicMaterial({
       map: texture,
-      side: DoubleSide,
+      // side: DoubleSide,
       transparent: true,
       color: 0xffffff,
       blending: normalMode ? NormalBlending : AdditiveBlending,
@@ -63,6 +61,7 @@ export class ObjectManager {
 
   drawImage(texture: Texture, layers: number) {
     const ratio = texture.image.height / texture.image.width;
+
     const group = new Group();
     const geometry = new PlaneGeometry(
       this.objectSize,
@@ -87,12 +86,7 @@ export class ObjectManager {
     );
 
     for (let i = 0; i < layers; i++) {
-      const material = new MeshBasicMaterial({
-        color: 0xffffff,
-        map: texture,
-        transparent: true,
-        blending: i === layers - 1 ? NormalBlending : AdditiveBlending,
-      });
+      const material = this.makeMaterial(texture, i === layers - 1);
       const mesh = new Mesh(geometry, material);
       mesh.position.z -= this.gap * i;
       group.add(mesh);
@@ -101,36 +95,36 @@ export class ObjectManager {
     return group;
   }
 
-  drawObjects(images: Texture[], videos: VideoTexture[]) {
+  drawObjects(textures: (Texture | VideoTexture)[]) {
     this.resetModels();
 
     // Add new objects.
-    const imageKeys = Object.keys(images);
-    imageKeys.forEach((key: any) => {
+    textures.forEach((texture: Texture | VideoTexture) => {
       const layers = Math.ceil(Math.random() * 4) + 1;
-      const texture = images[key];
 
-      const group = this.drawImage(texture, layers);
-      this.objects[key] = {
-        group,
+      const isVideoTexture = (
+        texture: Texture | VideoTexture
+      ): texture is VideoTexture => {
+        return (texture as VideoTexture).isVideoTexture || false;
       };
-    });
 
-    const videoKeys = Object.keys(videos);
-    videoKeys.forEach((key: any) => {
-      const layers = Math.ceil(Math.random() * 4) + 1;
-      const texture = videos[key];
-      const group = this.drawVideo(texture, layers);
-      this.objects[key] = {
-        group,
-      };
+      if (isVideoTexture(texture)) {
+        const group = this.drawVideo(texture, layers);
+        this.objects[texture.id] = { group };
+      }
+
+      if (!isVideoTexture(texture)) {
+        const group = this.drawImage(texture, layers);
+        this.objects[texture.id] = { group };
+      }
     });
 
     // Set loop.
     if (this.loop) {
+      const first = this.objects[Object.keys(this.objects)[0]];
       const clone = {
-        group: this.objects[0].group.clone(),
-        direction: this.objects[0].direction,
+        group: first.group.clone(),
+        direction: first.direction,
       };
       this.objects["clone"] = clone;
     }

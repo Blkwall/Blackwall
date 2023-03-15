@@ -22,7 +22,7 @@ export class ThreeInstance {
   objectManager: ObjectManager;
   spiral: Spiral;
 
-  debugMode = !false;
+  debugMode = false;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -45,11 +45,7 @@ export class ThreeInstance {
     this.resize();
 
     // Add objects.
-    this.objectManager = new ObjectManager(
-      this,
-      this.assets.textures,
-      this.assets.videoTextures
-    );
+    this.objectManager = new ObjectManager(this);
     // Make spiral.
     this.spiral = new Spiral(this, this.objectManager.totalObjects);
     // Place objects.
