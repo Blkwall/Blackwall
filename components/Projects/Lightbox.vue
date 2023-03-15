@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <!-- Wrapper -->
-  <div class="flex flex-col items-center gap-4 p-8 bg-opacity-50 fill">
+  <div class="flex flex-col items-center gap-4 bg-opacity-50 fill">
     <!-- Content -->
     <div>{{ image }}</div>
     <div class="relative w-full h-full">
