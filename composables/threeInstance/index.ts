@@ -2,7 +2,7 @@ import { Color, Scene, WebGLRenderer } from "three";
 import Stats from "three/examples/jsm/libs/stats.module";
 import { Assets, loadAssets } from "./assets";
 import { CameraManager } from "./camera";
-import { ImageManager } from "./images";
+import { ObjectManager } from "./objects";
 import { Lights } from "./lights";
 import { Spiral } from "./spiral";
 import { ConfigManager } from "./config";
@@ -19,12 +19,10 @@ export class ThreeInstance {
   scene: Scene;
   lightsManager: Lights;
   stats: Stats;
-  imageManager: ImageManager;
+  objectManager: ObjectManager;
   spiral: Spiral;
 
-  debugMode = false;
-
-  animationId = 0;
+  debugMode = !false;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -42,17 +40,20 @@ export class ThreeInstance {
     this.lightsManager.lights.forEach((light) => this.scene.add(light));
 
     this.stats = Stats();
-    document.body.appendChild(this.stats.dom);
 
     window.addEventListener("resize", () => this.resize());
     this.resize();
 
-    this.spiral = new Spiral(this);
-
-    // Add images.
-    this.imageManager = new ImageManager(this, this.assets.textures);
-    // Place images.
-    this.imageManager.placeModels(this.spiral.helixCurve);
+    // Add objects.
+    this.objectManager = new ObjectManager(
+      this,
+      this.assets.textures,
+      this.assets.videoTextures
+    );
+    // Make spiral.
+    this.spiral = new Spiral(this, this.objectManager.totalObjects);
+    // Place objects.
+    this.objectManager.placeObjects(this.spiral.helixCurve);
   }
 
   resize() {
@@ -138,11 +139,13 @@ export class ThreeInstance {
     this.spiral.helperSphere.position.copy(
       this.spiral.helixCurve.getPointAt(this.progress)
     );
-    this.imageManager.update();
+    this.objectManager.update();
     this.cameraManager.update(this.progress);
 
     this.lastScrollY = window.scrollY;
   }
+
+  animationId = 0;
   tick() {
     this.update();
     this.render();
@@ -157,7 +160,6 @@ export class ThreeInstance {
   destroy() {
     document.body.style.height = "auto";
     this.el.removeChild(this.renderer.domElement);
-    document.body.removeChild(this.stats.dom);
     cancelAnimationFrame(this.animationId);
   }
 }

@@ -32,7 +32,7 @@ watchEffect(() => {
 
   <ClientOnly>
     <Teleport :disabled="!contactOpen" :to="store.blurModalEl">
-      <ContactModal />
+      <ContactModal v-if="contactOpen" />
     </Teleport>
   </ClientOnly>
 </template>

@@ -47,14 +47,15 @@ export class Spiral {
     height: number;
   };
   helperSphere: Mesh<SphereGeometry, MeshBasicMaterial>;
-  constructor(instance: ThreeInstance) {
+  constructor(instance: ThreeInstance, totalObjects?: number) {
     this.instance = instance;
     this.material = new LineBasicMaterial({
       color: 0x0000ff,
     });
+
     this.config = {
       radius: 25,
-      height: 100,
+      height: totalObjects ? totalObjects * 10 : 50,
     };
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
     this.line = this.drawCurveLine();
