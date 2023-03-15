@@ -2,6 +2,7 @@
 import { ThreeInstance } from "~~/composables/threeInstance/index";
 
 const el = ref<HTMLElement>();
+const loading = ref(true);
 let threeInstance: ThreeInstance | null;
 onMounted(async () => {
   if (!el.value) {
@@ -29,6 +30,8 @@ onMounted(async () => {
   ]);
   threeInstance.configManager.init($dat);
   threeInstance.tick();
+
+  loading.value = false;
 });
 
 onBeforeUnmount(() => {
@@ -42,6 +45,9 @@ onBeforeUnmount(() => {
 
 <template>
   <div id="wrapper">
+    <div v-if="loading" class="fixed z-20 text-white fill fill-center">
+      Loading...
+    </div>
     <div ref="el" class="fixed top-0 left-0 w-full h-full bg-black"></div>
   </div>
 </template>
