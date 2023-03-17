@@ -27,24 +27,32 @@ export class ConfigManager {
     imageFolder.open();
     const imageSize = { size: 10 };
     imageFolder.add(imageSize, "size", 1, 100).onChange((value) => {
-      const { objectManager: imageManager, spiral, assets } = this.instance;
+      const {
+        sceneObjectManager: imageManager,
+        spiral,
+        assets,
+      } = this.instance;
       imageManager.objectSize = value;
       imageManager.drawObjects(Object.values(assets.textures));
       imageManager.placeObjects(spiral.helixCurve);
     });
 
-    const imageGap = { gap: this.instance.objectManager.gap };
+    const imageGap = { gap: this.instance.sceneObjectManager.gap };
     imageFolder.add(imageGap, "gap", 0.01, 5).onChange((value) => {
-      const { objectManager: imageManager, spiral, assets } = this.instance;
+      const {
+        sceneObjectManager: imageManager,
+        spiral,
+        assets,
+      } = this.instance;
       imageManager.gap = value;
       imageManager.drawObjects(Object.values(assets.textures));
       imageManager.placeObjects(spiral.helixCurve);
     });
     const lookAtCamera = {
-      lookAtCamera: this.instance.objectManager.lookAtCamera,
+      lookAtCamera: this.instance.sceneObjectManager.lookAtCamera,
     };
     imageFolder.add(lookAtCamera, "lookAtCamera").onChange((value) => {
-      this.instance.objectManager.lookAtCamera = value;
+      this.instance.sceneObjectManager.lookAtCamera = value;
     });
 
     // CAMERA
@@ -70,13 +78,13 @@ export class ConfigManager {
       height: this.instance.spiral.config.height,
     };
     spiralFolder.add(spiral, "radius", 1, 100).onChange((value) => {
-      const { spiral, objectManager: imageManager } = this.instance;
+      const { spiral, sceneObjectManager: imageManager } = this.instance;
       spiral.config.radius = value;
       spiral.updateCurve();
       imageManager.placeObjects(spiral.helixCurve);
     });
     spiralFolder.add(spiral, "height", 10, 500).onChange((value) => {
-      const { spiral, objectManager: imageManager } = this.instance;
+      const { spiral, sceneObjectManager: imageManager } = this.instance;
       spiral.config.height = value;
       spiral.updateCurve();
       imageManager.placeObjects(spiral.helixCurve);

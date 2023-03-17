@@ -30,7 +30,7 @@ onMounted(async () => {
     // "/images/TA_portrait_2021_19.jpg",
     // "/images/TA_portrait_2021_22copy.jpg",
   ]);
-  threeInstance.configManager.init($dat);
+  // threeInstance.configManager.init($dat);
   threeInstance.tick();
 
   loading.value = false;

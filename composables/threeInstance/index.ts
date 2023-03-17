@@ -2,10 +2,11 @@ import { Color, Scene, WebGLRenderer } from "three";
 import Stats from "three/examples/jsm/libs/stats.module";
 import { Assets, loadAssets } from "./assets";
 import { CameraManager } from "./camera";
-import { ObjectManager } from "./objects";
+import { SceneObjectManager } from "./SceneObjects";
 import { Lights } from "./lights";
 import { Spiral } from "./spiral";
 import { ConfigManager } from "./config";
+import { InputManager } from "./input";
 
 const config = {
   name: "Blackwall",
@@ -19,10 +20,11 @@ export class ThreeInstance {
   scene: Scene;
   lightsManager: Lights;
   stats: Stats;
-  objectManager: ObjectManager;
+  sceneObjectManager: SceneObjectManager;
+  inputManager: InputManager;
   spiral: Spiral;
 
-  debugMode = !false;
+  debugMode = false;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -45,13 +47,13 @@ export class ThreeInstance {
     this.resize();
 
     // Add objects.
-    this.objectManager = new ObjectManager(this);
+    this.sceneObjectManager = new SceneObjectManager(this);
     // Make spiral.
-    this.spiral = new Spiral(this, this.objectManager.totalObjects);
+    this.spiral = new Spiral(this, this.sceneObjectManager.totalObjects);
     // Place objects.
-    this.objectManager.placeObjects(this.spiral.helixCurve);
+    this.sceneObjectManager.placeObjects(this.spiral.helixCurve);
 
-    window.addEventListener("scroll", () => this.onScroll());
+    this.inputManager = new InputManager(this);
   }
 
   resize() {
@@ -116,32 +118,14 @@ export class ThreeInstance {
     return 1 - progress;
   }
 
-  scrollDirection = 0;
-  lastScrollY = 0;
-  onScroll() {
-    if (this.lastScrollY < window.scrollY) {
-      this.scrollDirection = 1;
-    } else {
-      this.scrollDirection = -1;
-    }
-
-    if (1 - this.progress > 0.95 && this.scrollDirection > 0) {
-      const height = document.body.scrollHeight - window.innerHeight;
-      window.scrollTo(0, height * 0.05);
-    }
-
-    if (1 - this.progress < 0.05 && this.scrollDirection < 0) {
-      const height = document.body.scrollHeight - window.innerHeight;
-      window.scrollTo(0, height * 0.95);
-    }
-    this.lastScrollY = window.scrollY;
-  }
-
   update() {
+    // Helper
     this.spiral.helperSphere.position.copy(
       this.spiral.helixCurve.getPointAt(this.progress)
     );
-    this.objectManager.update();
+
+    this.inputManager.update();
+    this.sceneObjectManager.update();
     this.cameraManager.update(this.progress);
   }
 

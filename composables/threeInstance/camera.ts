@@ -10,14 +10,14 @@ export class CameraManager {
   config: {
     distance: number;
   } = {
-    distance: 15,
+    distance: 1,
   };
 
   constructor(instance: ThreeInstance) {
     this.instance = instance;
     this.camera = new PerspectiveCamera(50, 1, 0.1, 1000);
     this.debugCamera = new PerspectiveCamera(50, 1, 0.1, 1000);
-    this.debugCamera.position.set(0, 0, 200);
+    this.debugCamera.position.set(0, 0, 20);
 
     this.helper = new CameraHelper(this.camera);
     this.instance.scene.add(this.helper);

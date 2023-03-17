@@ -19,10 +19,11 @@ export class HelixCurve extends Curve<Vector3> {
     this.radius = radius;
     this.height = height;
   }
+
   getPoint(t: number, optionalTarget = new Vector3()) {
     const point = optionalTarget;
 
-    const a = this.radius; // radius
+    const a = 1; // radius
     const b = this.height; // height
 
     const t2 = (2 * Math.PI * t * b) / this.radius;
@@ -55,13 +56,13 @@ export class Spiral {
 
     this.config = {
       radius: 15,
-      height: totalObjects ? totalObjects * 10 : 50,
+      height: totalObjects ? totalObjects * 1.5 : 50,
     };
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
     this.line = this.drawCurveLine();
     this.instance.scene.add(this.line);
     this.helperSphere = new Mesh(
-      new SphereGeometry(2, 32, 32),
+      new SphereGeometry(0.01, 32, 32),
       new MeshBasicMaterial({ color: 0xff0000 })
     );
     this.instance.scene.add(this.helperSphere);
