@@ -27,8 +27,8 @@ export class HelixCurve extends Curve<Vector3> {
 
     const t2 = (2 * Math.PI * t * b) / this.radius;
 
-    const x = Math.cos(t2) * a;
-    const z = Math.sin(t2) * a;
+    const x = Math.sin(t2) * a;
+    const z = Math.cos(t2) * a;
     const y = b * t;
 
     // center point based on radius and height
@@ -54,7 +54,7 @@ export class Spiral {
     });
 
     this.config = {
-      radius: 25,
+      radius: 15,
       height: totalObjects ? totalObjects * 10 : 50,
     };
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);

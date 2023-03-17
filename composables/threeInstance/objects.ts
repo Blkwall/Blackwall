@@ -22,7 +22,7 @@ type ObjectGroup = {
 export class ObjectManager {
   threeInstance: ThreeInstance;
   objects: { [key: string]: ObjectGroup } = {};
-  objectSize = 10;
+  objectSize = 15;
   gap = 0.35;
   loop: boolean = true;
   lookAtCamera: boolean = false;

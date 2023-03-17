@@ -29,7 +29,7 @@ export class ConfigManager {
     imageFolder.add(imageSize, "size", 1, 100).onChange((value) => {
       const { objectManager: imageManager, spiral, assets } = this.instance;
       imageManager.objectSize = value;
-      imageManager.drawObjects(assets.textures, assets.videoTextures);
+      imageManager.drawObjects(Object.values(assets.textures));
       imageManager.placeObjects(spiral.helixCurve);
     });
 
@@ -37,7 +37,7 @@ export class ConfigManager {
     imageFolder.add(imageGap, "gap", 0.01, 5).onChange((value) => {
       const { objectManager: imageManager, spiral, assets } = this.instance;
       imageManager.gap = value;
-      imageManager.drawObjects(assets.textures, assets.videoTextures);
+      imageManager.drawObjects(Object.values(assets.textures));
       imageManager.placeObjects(spiral.helixCurve);
     });
     const lookAtCamera = {

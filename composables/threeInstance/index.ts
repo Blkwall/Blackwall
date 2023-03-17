@@ -22,7 +22,7 @@ export class ThreeInstance {
   objectManager: ObjectManager;
   spiral: Spiral;
 
-  debugMode = false;
+  debugMode = !false;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -50,6 +50,8 @@ export class ThreeInstance {
     this.spiral = new Spiral(this, this.objectManager.totalObjects);
     // Place objects.
     this.objectManager.placeObjects(this.spiral.helixCurve);
+
+    window.addEventListener("scroll", () => this.onScroll());
   }
 
   resize() {
@@ -111,34 +113,36 @@ export class ThreeInstance {
     const progress =
       window.scrollY / (document.body.scrollHeight - window.innerHeight);
 
-    return progress;
+    return 1 - progress;
   }
 
   scrollDirection = 0;
   lastScrollY = 0;
-  update() {
+  onScroll() {
     if (this.lastScrollY < window.scrollY) {
       this.scrollDirection = 1;
     } else {
       this.scrollDirection = -1;
     }
 
-    if (this.progress > 0.95 && this.scrollDirection > 0) {
+    if (1 - this.progress > 0.95 && this.scrollDirection > 0) {
       const height = document.body.scrollHeight - window.innerHeight;
       window.scrollTo(0, height * 0.05);
     }
-    if (this.progress < 0.05 && this.scrollDirection < 0) {
+
+    if (1 - this.progress < 0.05 && this.scrollDirection < 0) {
       const height = document.body.scrollHeight - window.innerHeight;
       window.scrollTo(0, height * 0.95);
     }
+    this.lastScrollY = window.scrollY;
+  }
 
+  update() {
     this.spiral.helperSphere.position.copy(
       this.spiral.helixCurve.getPointAt(this.progress)
     );
     this.objectManager.update();
     this.cameraManager.update(this.progress);
-
-    this.lastScrollY = window.scrollY;
   }
 
   animationId = 0;
@@ -157,5 +161,6 @@ export class ThreeInstance {
     document.body.style.height = "auto";
     this.el.removeChild(this.renderer.domElement);
     cancelAnimationFrame(this.animationId);
+    window.removeEventListener("resize", () => this.resize());
   }
 }
