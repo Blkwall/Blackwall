@@ -24,7 +24,7 @@ export class ThreeInstance {
   inputManager: InputManager;
   spiral: Spiral;
 
-  debugMode = false;
+  debugMode = !false;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -49,7 +49,7 @@ export class ThreeInstance {
     // Add objects.
     this.sceneObjectManager = new SceneObjectManager(this);
     // Make spiral.
-    this.spiral = new Spiral(this, this.sceneObjectManager.totalObjects);
+    this.spiral = new Spiral(this);
     // Place objects.
     this.sceneObjectManager.placeObjects(this.spiral.helixCurve);
 

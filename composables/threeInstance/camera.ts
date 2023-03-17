@@ -17,7 +17,7 @@ export class CameraManager {
     this.instance = instance;
     this.camera = new PerspectiveCamera(50, 1, 0.1, 1000);
     this.debugCamera = new PerspectiveCamera(50, 1, 0.1, 1000);
-    this.debugCamera.position.set(0, 0, 20);
+    this.debugCamera.position.set(0, 0, 10);
 
     this.helper = new CameraHelper(this.camera);
     this.instance.scene.add(this.helper);

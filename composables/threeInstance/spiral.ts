@@ -55,8 +55,8 @@ export class Spiral {
     });
 
     this.config = {
-      radius: 15,
-      height: totalObjects ? totalObjects * 1.5 : 50,
+      radius: 10,
+      height: this.instance.sceneObjectManager.totalHeight,
     };
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
     this.line = this.drawCurveLine();
@@ -68,7 +68,10 @@ export class Spiral {
     this.instance.scene.add(this.helperSphere);
   }
   updateCurve() {
-    this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
+    this.helixCurve = new HelixCurve(
+      this.config.radius,
+      this.instance.sceneObjectManager.totalHeight
+    );
     this.line.geometry.dispose();
     this.line.geometry = this.drawCurveLine().geometry;
   }

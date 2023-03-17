@@ -21,19 +21,26 @@ export class SceneObject {
   gap: number;
   direction: Vector3 = new Vector3(0, 0, 0);
   alpha: number | null = null;
+  index: number;
   constructor(
     texture: Texture | VideoTexture,
     size: number,
     ratio: number,
     layers: number,
-    gap: number
+    gap: number,
+    index: number
   ) {
     this.gap = gap;
     this.texture = texture;
     this.size = size;
     this.ratio = ratio;
     this.layers = layers;
+    this.index = index;
     this.object = this.drawOject();
+  }
+
+  get getHeight() {
+    return this.size * this.ratio;
   }
 
   makeMaterial(texture: Texture, normalMode: boolean) {
@@ -54,6 +61,7 @@ export class SceneObject {
       const material = this.makeMaterial(this.texture, i === this.layers - 1);
       const mesh = new Mesh(geometry, material);
       mesh.position.z -= this.gap * i;
+      // mesh.position.y = this.getHeight / 2;
       group.add(mesh);
     }
     return group;

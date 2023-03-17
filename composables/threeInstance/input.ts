@@ -7,6 +7,7 @@ export class InputManager {
     this.threeInstance = threeInstance;
     window.addEventListener("scroll", () => this.onScroll());
     window.addEventListener("mousemove", (e) => this.onMouseMove(e));
+    window.scrollTo(0, 10);
   }
 
   onMouseMove(e: MouseEvent) {
@@ -23,15 +24,18 @@ export class InputManager {
       this.scrollDirection = -1;
     }
 
-    if (1 - this.threeInstance.progress >= 1 && this.scrollDirection > 0) {
-      const height = document.body.scrollHeight - window.innerHeight;
-      window.scrollTo(0, 0);
-    }
+    // Loop scroll back to top or bottom.
 
-    if (1 - this.threeInstance.progress <= 0 && this.scrollDirection < 0) {
+    if (this.threeInstance.progress === 1 && this.scrollDirection === -1) {
       const height = document.body.scrollHeight - window.innerHeight;
       window.scrollTo(0, height);
     }
+
+    if (this.threeInstance.progress < 0.001 && this.scrollDirection === 1) {
+      const height = document.body.scrollHeight - window.innerHeight;
+      window.scrollTo(0, height * 0.01);
+    }
+
     this.lastScrollY = window.scrollY;
   }
   update() {}

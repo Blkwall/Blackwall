@@ -17,8 +17,8 @@ onMounted(async () => {
 
   threeInstance = await ThreeInstance.load(el.value, [
     "/videos/testVideo.mp4",
-    "/videos/test_1.mp4",
     "/images/TA_fashion_2021_12_a.jpg",
+    "/videos/test_1.mp4",
     "/images/TA_fashion_2021_13 copy.jpg",
     "/images/TA_fashion_2021_17_b.jpg",
     "/videos/file_example_MP4_640_3MG.mp4",
