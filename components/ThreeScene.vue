@@ -72,6 +72,7 @@ onBeforeUnmount(() => {
         muted
         autoplay
         loop
+        playsinline="true"
       ></video>
     </div>
     <div ref="el" class="fixed top-0 left-0 z-20 w-full h-full"></div>
