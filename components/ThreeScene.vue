@@ -23,7 +23,7 @@ onMounted(async () => {
   if (threeInstance?.stats) {
     threeInstance.stats.domElement.remove();
   }
-
+  await nextTick();
   threeInstance = await ThreeInstance.load(
     el.value,
     [
