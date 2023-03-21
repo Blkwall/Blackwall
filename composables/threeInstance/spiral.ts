@@ -34,7 +34,7 @@ export class HelixCurve extends Curve<Vector3> {
 
     // center point based on radius and height
     const center = new Vector3(0, b / 2, 0);
-    return point.set(x, y, z).sub(center);
+    return point.set(x, y, z);
   }
 }
 
@@ -48,6 +48,7 @@ export class Spiral {
     height: number;
   };
   helperSphere: Mesh<SphereGeometry, MeshBasicMaterial>;
+  lineVisible: number = 0;
   constructor(instance: ThreeInstance, totalObjects?: number) {
     this.instance = instance;
     this.material = new LineBasicMaterial({
@@ -55,7 +56,7 @@ export class Spiral {
     });
 
     this.config = {
-      radius: 10,
+      radius: 8,
       height: this.instance.sceneObjectManager.totalHeight,
     };
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);
@@ -67,6 +68,18 @@ export class Spiral {
     );
     this.instance.scene.add(this.helperSphere);
   }
+
+  get ratioOfLineVisible() {
+    const camera = this.instance.cameraManager.camera;
+    const FOV = camera.fov;
+    let yFovRadiant = (FOV * Math.PI) / 180;
+    const distance = camera.position.distanceTo(
+      this.helixCurve.getPoint(this.instance.progress)
+    );
+    const yShift = Math.tan(yFovRadiant / 2) * distance;
+    return yShift / this.config.height;
+  }
+
   updateCurve() {
     this.helixCurve = new HelixCurve(
       this.config.radius,
@@ -74,6 +87,7 @@ export class Spiral {
     );
     this.line.geometry.dispose();
     this.line.geometry = this.drawCurveLine().geometry;
+    this.lineVisible = this.ratioOfLineVisible;
   }
 
   drawCurveLine() {

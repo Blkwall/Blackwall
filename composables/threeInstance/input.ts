@@ -24,16 +24,16 @@ export class InputManager {
       this.scrollDirection = -1;
     }
 
-    // Loop scroll back to top or bottom.
+    const delta = Math.abs(window.scrollY - this.lastScrollY);
 
     if (this.threeInstance.progress === 1 && this.scrollDirection === -1) {
       const height = document.body.scrollHeight - window.innerHeight;
-      window.scrollTo(0, height);
+      window.scrollTo(0, height - delta);
     }
 
     if (this.threeInstance.progress < 0.001 && this.scrollDirection === 1) {
       const height = document.body.scrollHeight - window.innerHeight;
-      window.scrollTo(0, height * 0.01);
+      window.scrollTo(0, delta);
     }
 
     this.lastScrollY = window.scrollY;

@@ -11,31 +11,44 @@ import {
   Vector3,
   VideoTexture,
 } from "three";
+import { SceneObjectManager } from "./SceneObjects";
+
+type SceneObjectProps = {
+  texture: Texture | VideoTexture;
+  sceneManager: SceneObjectManager;
+  ratio: number;
+  layers: number;
+  index: number;
+};
 
 export class SceneObject {
   texture: Texture | VideoTexture;
+  sceneManager: SceneObjectManager;
   size: number;
   ratio: number;
   layers: number;
   object: Group;
   gap: number;
   direction: Vector3 = new Vector3(0, 0, 0);
-  alpha: number | null = null;
+  alpha: number = 0;
   index: number;
-  constructor(
-    texture: Texture | VideoTexture,
-    size: number,
-    ratio: number,
-    layers: number,
-    gap: number,
-    index: number
-  ) {
-    this.gap = gap;
+  pos: Vector3 = new Vector3(0, 0, 0);
+  constructor({
+    texture,
+    sceneManager,
+    ratio,
+    layers,
+    index,
+  }: SceneObjectProps) {
+    // load props.
     this.texture = texture;
-    this.size = size;
+    this.sceneManager = sceneManager;
     this.ratio = ratio;
     this.layers = layers;
+    this.gap = sceneManager.gap;
+    this.size = sceneManager.objectSize;
     this.index = index;
+    // draw object
     this.object = this.drawOject();
   }
 
@@ -61,25 +74,31 @@ export class SceneObject {
       const material = this.makeMaterial(this.texture, i === this.layers - 1);
       const mesh = new Mesh(geometry, material);
       mesh.position.z -= this.gap * i;
-      // mesh.position.y = this.getHeight / 2;
       group.add(mesh);
     }
+
     return group;
   }
 
   update(progress: number, mousePosition: Vector2) {
-    const mousePos3d = new Vector3(
-      mousePosition.x * -1,
-      mousePosition.y * -1,
-      0
-    );
-    const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.1));
+    const distance = this.getWrappedProgress(this.alpha, progress);
+    const mappedDistance = map(distance, 0, 0.5, 1, 0);
+
+    const { lineVisible } = this.sceneManager.threeInstance.spiral;
+    this.object.visible = 1 - mappedDistance < lineVisible;
+
+    const { x, y } = mousePosition;
+    const mousePos3d = new Vector3(x * -1, y * -1, 0);
+    const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.025));
     this.object.lookAt(lookAt);
   }
 
   public static isVideoTexture(texture: Texture | VideoTexture) {
     return (texture as VideoTexture).isVideoTexture || false;
   }
+
+  public getWrappedProgress(a: number, b: number) {
+    const diff = Math.abs(a - b);
+    return Math.min(diff, 1 - diff);
+  }
 }
-const wrap = (num: number, min: number, max: number): number =>
-  ((((num - min) % (max - min)) + (max - min)) % (max - min)) + min;

@@ -1,4 +1,6 @@
 import { Color, Scene, WebGLRenderer } from "three";
+import * as TWEEN from "@tweenjs/tween.js";
+
 import Stats from "three/examples/jsm/libs/stats.module";
 import { Assets, loadAssets } from "./assets";
 import { CameraManager } from "./camera";
@@ -8,13 +10,11 @@ import { Spiral } from "./spiral";
 import { ConfigManager } from "./config";
 import { InputManager } from "./input";
 
-const config = {
-  name: "Blackwall",
-};
 export class ThreeInstance {
   el: HTMLElement;
   assets: Assets;
   renderer: WebGLRenderer;
+
   configManager: ConfigManager;
   cameraManager: CameraManager;
   scene: Scene;
@@ -24,13 +24,14 @@ export class ThreeInstance {
   inputManager: InputManager;
   spiral: Spiral;
 
-  debugMode = !false;
+  debugMode = false;
+  isIntro = true;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
     this.assets = assets;
 
-    this.renderer = new WebGLRenderer({ antialias: true, alpha: false });
+    this.renderer = new WebGLRenderer({ antialias: true, alpha: true });
     el.appendChild(this.renderer.domElement);
 
     this.configManager = new ConfigManager(this);
@@ -41,6 +42,7 @@ export class ThreeInstance {
     this.lightsManager = new Lights(this);
     this.lightsManager.lights.forEach((light) => this.scene.add(light));
 
+    this.inputManager = new InputManager(this);
     this.stats = Stats();
 
     window.addEventListener("resize", () => this.resize());
@@ -53,7 +55,19 @@ export class ThreeInstance {
     // Place objects.
     this.sceneObjectManager.placeObjects(this.spiral.helixCurve);
 
-    this.inputManager = new InputManager(this);
+    this.playIntroAnimation();
+  }
+
+  async playIntroAnimation() {
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = "17px";
+    this.sceneObjectManager.update();
+    this.cameraManager.progressToCamPos(1);
+    this.sceneObjectManager.initIntroAnimation();
+    await this.sceneObjectManager.playIntroAnimation();
+    this.isIntro = false;
+    document.body.style.overflow = "auto";
+    document.body.style.paddingRight = "0px";
   }
 
   resize() {
@@ -100,7 +114,7 @@ export class ThreeInstance {
       this.renderer.setViewport(0, 0, width, height);
       this.renderer.setScissor(0, 0, width, height);
       this.renderer.setScissorTest(true);
-      this.renderer.setClearColor(new Color(0x000000));
+      // this.renderer.setClearColor(new Color(0x000000));
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       this.cameraManager.helper.visible = false;
@@ -125,6 +139,7 @@ export class ThreeInstance {
     );
 
     this.inputManager.update();
+
     this.sceneObjectManager.update();
     this.cameraManager.update(this.progress);
   }
@@ -135,10 +150,15 @@ export class ThreeInstance {
     this.render();
     this.stats.update();
     this.animationId = requestAnimationFrame(() => this.tick());
+    TWEEN.update();
   }
 
-  static async load(el: HTMLElement, assets: string[]) {
-    return new ThreeInstance(el, await loadAssets(assets));
+  static async load(
+    el: HTMLElement,
+    assets: string[],
+    videoEls: HTMLVideoElement[]
+  ) {
+    return new ThreeInstance(el, await loadAssets(assets, videoEls));
   }
 
   destroy() {

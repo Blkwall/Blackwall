@@ -18,19 +18,14 @@ const allValues = async <T extends object>(
 
 const textureLoader = new TextureLoader();
 
-export const loadAssets = (urls: string[]) => {
+export const loadAssets = (urls: string[], videoEls: HTMLVideoElement[]) => {
   return allValues({
     textures: allValues(
       urls.map((url) => {
         if (url.match(/\.(mp4)$/) != null) {
-          var video = document.createElement("video");
-          video.setAttribute("src", url);
-          video.setAttribute("autoplay", "true");
-          video.setAttribute("loop", "true");
-          video.setAttribute("muted", "true");
-          video.setAttribute("playsinline", "true");
-          video.setAttribute("preload", "auto");
+          const video = videoEls.filter((video) => video.dataset.id === url)[0];
           const texture = new VideoTexture(video);
+          video.play();
           return texture;
         } else {
           return textureLoader.loadAsync(url);
