@@ -20,6 +20,7 @@ const textureLoader = new TextureLoader();
 
 export const loadAssets = (urls: string[], videoEls: HTMLVideoElement[]) => {
   return allValues({
+    logo: textureLoader.loadAsync("./images/Logo.png"),
     textures: allValues(
       urls.map((url) => {
         if (url.match(/\.(mp4)$/) != null) {

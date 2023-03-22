@@ -1,4 +1,13 @@
-import { Color, Scene, WebGLRenderer } from "three";
+import {
+  Color,
+  Mesh,
+  MeshBasicMaterial,
+  Object3D,
+  PlaneGeometry,
+  Scene,
+  Vector3,
+  WebGLRenderer,
+} from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 
 import Stats from "three/examples/jsm/libs/stats.module";
@@ -9,6 +18,9 @@ import { Lights } from "./lights";
 import { Spiral } from "./spiral";
 import { ConfigManager } from "./config";
 import { InputManager } from "./input";
+import { Animation } from "./animation";
+import { sequence_intro } from "./Sequences/intro";
+import { sequence_main } from "./Sequences/main";
 
 export class ThreeInstance {
   el: HTMLElement;
@@ -23,9 +35,11 @@ export class ThreeInstance {
   sceneObjectManager: SceneObjectManager;
   inputManager: InputManager;
   spiral: Spiral;
+  logo: Object3D;
 
   debugMode = false;
-  isIntro = true;
+  sequences: { [key: string]: Animation };
+  activeSequenceKey: string = "intro";
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -55,19 +69,20 @@ export class ThreeInstance {
     // Place objects.
     this.sceneObjectManager.placeObjects(this.spiral.helixCurve);
 
-    this.playIntroAnimation();
-  }
+    this.logo = new Mesh(
+      new PlaneGeometry(
+        5,
+        (5 * this.assets.logo.image.height) / this.assets.logo.image.width
+      ),
+      new MeshBasicMaterial({ map: this.assets.logo, transparent: true })
+    );
 
-  async playIntroAnimation() {
-    document.body.style.overflow = "hidden";
-    document.body.style.paddingRight = "17px";
-    this.sceneObjectManager.update();
-    this.cameraManager.progressToCamPos(1);
-    this.sceneObjectManager.initIntroAnimation();
-    await this.sceneObjectManager.playIntroAnimation();
-    this.isIntro = false;
-    document.body.style.overflow = "auto";
-    document.body.style.paddingRight = "0px";
+    // this.scene.add(this.logo);
+
+    this.sequences = {
+      intro: sequence_intro,
+      main: sequence_main,
+    };
   }
 
   resize() {
@@ -124,24 +139,21 @@ export class ThreeInstance {
     }
   }
 
-  // progress = 1;
   get progress() {
     const progress =
       window.scrollY / (document.body.scrollHeight - window.innerHeight);
 
-    return 1 - progress;
+    return progress;
   }
 
   update() {
-    // Helper
-    this.spiral.helperSphere.position.copy(
-      this.spiral.helixCurve.getPointAt(this.progress)
-    );
+    // Update logo position.
+    // const camPos = this.cameraManager.camera.position.clone();
+    // const camDir = this.cameraManager.camera.getWorldDirection(new Vector3());
+    // this.logo.position.copy(camPos.add(camDir.multiplyScalar(5)));
+    // this.logo.lookAt(this.cameraManager.camera.position);
 
-    this.inputManager.update();
-
-    this.sceneObjectManager.update();
-    this.cameraManager.update(this.progress);
+    this.sequences[this.activeSequenceKey].update(this.progress, this);
   }
 
   animationId = 0;

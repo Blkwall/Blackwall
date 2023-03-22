@@ -5,6 +5,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   NormalBlending,
+  Object3D,
   PlaneGeometry,
   Texture,
   Vector2,

@@ -7,6 +7,7 @@ let threeInstance: ThreeInstance | null;
 
 const videos = ref([
   "/videos/testVideo.mp4",
+  "/videos/3.mp4",
   "/videos/test_1.mp4",
   "/videos/file_example_MP4_640_3MG.mp4",
 ]);
@@ -28,18 +29,15 @@ onMounted(async () => {
     el.value,
     [
       "/videos/test_1.mp4",
+      "/videos/3.mp4",
       "/images/TA_fashion_2021_12_a.jpg",
       "/videos/testVideo.mp4",
       "/images/TA_fashion_2021_13 copy.jpg",
       "/images/TA_fashion_2021_17_b.jpg",
       "/videos/file_example_MP4_640_3MG.mp4",
-      "/videos/testVideo.mp4",
-      "/videos/file_example_MP4_640_3MG.mp4",
       "/images/TA_fashion_2021_19.jpg",
       "/images/TA_FX_2021_15.jpg",
       "/images/TA_FX_2021_26_a.jpg",
-      "/images/TA_portrait_2021_19.jpg",
-      "/images/TA_portrait_2021_22copy.jpg",
     ],
     video.value
   );
@@ -76,7 +74,6 @@ onBeforeUnmount(() => {
       ></video>
     </div>
     <div ref="el" class="fixed top-0 left-0 z-20 w-full h-full"></div>
-
     <div class="fixed z-10 fill fill-center">
       <div class="grid w-full md:grid-cols-12">
         <div class="col-span-8 md:col-start-3">

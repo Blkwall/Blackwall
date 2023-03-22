@@ -74,9 +74,9 @@ export class Spiral {
     const FOV = camera.fov;
     let yFovRadiant = (FOV * Math.PI) / 180;
     const distance = camera.position.distanceTo(
-      this.helixCurve.getPoint(this.instance.progress)
+      this.helixCurve.getPoint(1 - this.instance.progress)
     );
-    const yShift = Math.tan(yFovRadiant / 2) * distance;
+    const yShift = Math.tan(yFovRadiant / 4) * distance;
     return yShift / this.config.height;
   }
 

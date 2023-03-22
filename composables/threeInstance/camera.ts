@@ -10,7 +10,7 @@ export class CameraManager {
   config: {
     distance: number;
   } = {
-    distance: 1,
+    distance: 0.9,
   };
 
   constructor(instance: ThreeInstance) {

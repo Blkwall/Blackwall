@@ -79,7 +79,7 @@ export class SceneObjectManager {
     textures.forEach((texture: Texture | VideoTexture, index: number) => {
       const layers = 5;
       const ratio = SceneObject.isVideoTexture(texture)
-        ? 9 / 16
+        ? texture.source.data.videoHeight / texture.source.data.videoWidth
         : texture.image.height / texture.image.width;
 
       const sceneObject = new SceneObject({
@@ -115,6 +115,7 @@ export class SceneObjectManager {
 
     const firstObjectHeight = objects[0].getHeight;
     let lastHeight = firstObjectHeight * -0.5;
+
     objects.forEach((sceneObject: SceneObject, index: number) => {
       const { object, getHeight } = sceneObject;
 
@@ -163,58 +164,13 @@ export class SceneObjectManager {
     camera.lookAt(this.animation.startPos);
   }
 
-  playIntroAnimation() {
-    const { camera } = this.threeInstance.cameraManager;
-    if (!this.introObject) return;
-
-    return new Promise((resolve) => {
-      const time = { t: 0 };
-      new TWEEN.Tween(time)
-        .to({ t: 1 }, this.animation.duration * 1000)
-        .easing(TWEEN.Easing.Cubic.InOut)
-        .delay(this.animation.delay * 1000)
-        .onUpdate(() => {
-          this.introObject?.object.position.lerpVectors(
-            this.animation.startPos,
-            this.animation.endPos,
-            time.t
-          );
-        })
-        .onComplete(resolve)
-        .start();
-
-      new TWEEN.Tween(time)
-        .to({ t: 1 }, this.animation.duration * 1.1 * 1000)
-        .easing(TWEEN.Easing.Cubic.InOut)
-        .delay(this.animation.delay * 1000)
-        .onUpdate(() => {
-          camera.position.lerpVectors(
-            this.animation.startCamPos,
-            this.animation.endCamPos,
-            time.t
-          );
-        })
-        .start();
-    });
-  }
-
-  update() {
+  update(progress: number) {
     this.objects.forEach((object: SceneObject) => {
       const {
-        progress,
         inputManager: { mousePosition },
-        isIntro,
-        cameraManager: { camera },
       } = this.threeInstance;
 
-      if (isIntro) {
-        if (object !== this.introObject) object.update(progress, mousePosition);
-        else {
-          object.object.lookAt(camera.position);
-        }
-      } else {
-        object.update(progress, mousePosition);
-      }
+      object.update(progress, mousePosition);
     });
   }
 }
