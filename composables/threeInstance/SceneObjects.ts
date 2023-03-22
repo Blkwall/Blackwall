@@ -150,8 +150,6 @@ export class SceneObjectManager {
           .add(direction.clone().multiplyScalar(0.25));
       }
     });
-
-    document.body.style.height = this.totalObjects * 150 + "vh";
   }
 
   initIntroAnimation() {

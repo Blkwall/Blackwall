@@ -25,19 +25,20 @@ export const sequence_intro = new Animation({
     },
   ],
   onInit: (instance) => {
-    document.body.style.overflow = "hidden";
+    // document.body.style.overflow = "hidden";
     instance.sceneObjectManager.update(0);
     new TWEEN.Tween({ progress: 0 })
-      .to({ progress: 1 }, 2000)
+      .to({ progress: 1 }, 3000)
       .onUpdate((obj) => {
         introProgress = obj.progress;
       })
-      .easing(TWEEN.Easing.Quadratic.Out)
+      .easing(TWEEN.Easing.Quadratic.InOut)
+      .delay(500)
       .onComplete(() => {
         document.body.style.height =
-          instance.sceneObjectManager.totalObjects * 100 + "vh";
-        instance.activeSequenceKey = "main";
-        document.body.style.overflow = "auto";
+          // instance.sceneObjectManager.totalObjects * 100 + "vh";
+          instance.activeSequenceKey = "main";
+        // document.body.style.overflow = "auto";
       })
       .start();
   },

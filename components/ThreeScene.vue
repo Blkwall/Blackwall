@@ -57,9 +57,14 @@ onBeforeUnmount(() => {
 
 <template>
   <div id="wrapper">
-    <div v-if="loading" class="fixed z-20 text-white fill fill-center">
-      Loading...
-    </div>
+    <Transition name="fade" mode="out-in">
+      <div
+        v-if="loading"
+        class="fixed z-30 text-white bg-black fill fill-center"
+      >
+        <div>Loading...</div>
+      </div>
+    </Transition>
     <div v-for="video in videos" :key="video">
       <video
         ref="video"

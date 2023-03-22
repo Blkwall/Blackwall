@@ -35,7 +35,6 @@ export class ThreeInstance {
   sceneObjectManager: SceneObjectManager;
   inputManager: InputManager;
   spiral: Spiral;
-  logo: Object3D;
 
   debugMode = false;
   sequences: { [key: string]: Animation };
@@ -69,15 +68,15 @@ export class ThreeInstance {
     // Place objects.
     this.sceneObjectManager.placeObjects(this.spiral.helixCurve);
 
-    this.logo = new Mesh(
-      new PlaneGeometry(
-        5,
-        (5 * this.assets.logo.image.height) / this.assets.logo.image.width
-      ),
-      new MeshBasicMaterial({ map: this.assets.logo, transparent: true })
-    );
+    // this.logo = new Mesh(
+    //   new PlaneGeometry(
+    //     5,
+    //     (5 * this.assets.logo.image.height) / this.assets.logo.image.width
+    //   ),
+    //   new MeshBasicMaterial({ map: this.assets.logo, transparent: true })
+    // );
 
-    // this.scene.add(this.logo);
+    // // this.scene.add(this.logo);
 
     this.sequences = {
       intro: sequence_intro,
