@@ -53,9 +53,7 @@ export class InputManager {
 
   onTouchEnd(e: TouchEvent) {
     const delta = (e.changedTouches[0].clientY - this.lastTouchY) * -1;
-
     const halflife = Math.min(Math.abs(delta) / window.innerHeight, 1);
-
     if (delta < 0) this.touchAcceleration = Math.min(delta, 10) * halflife;
     if (delta > 0) this.touchAcceleration = Math.max(delta, -10) * halflife;
     this.touchDelta = delta;
