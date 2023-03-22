@@ -37,16 +37,20 @@ export class InputManager {
   }
 
   lastTouchY = 0;
+  lastPos = 0;
   touchAcceleration = 0;
   touchDelta = 0;
   onTouchStart(e: TouchEvent) {
     this.lastTouchY = e.touches[0].clientY;
+    this.lastPos = this.current;
+    this.touchAcceleration = 0;
   }
+
   onTouchMove(e: TouchEvent) {
-    const delta = (e.touches[0].clientY - this.lastTouchY) * -0.1;
-    this.touchAcceleration = delta;
-    this.touchDelta = delta;
+    const delta = e.touches[0].clientY - this.lastTouchY;
+    this.current = this.lastPos - delta;
   }
+
   onTouchEnd(e: TouchEvent) {
     const delta = (e.changedTouches[0].clientY - this.lastTouchY) * -1;
 

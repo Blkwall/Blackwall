@@ -30,7 +30,7 @@ export class ThreeInstance {
 
   debugMode = false;
   sequences: { [key: string]: Animation };
-  activeSequenceKey: string = "intro";
+  activeSequenceKey: string = "main";
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
