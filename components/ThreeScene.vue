@@ -19,11 +19,7 @@ onMounted(async () => {
     console.error("No element to mount ThreeInstance to");
     return;
   }
-  const { $dat } = useNuxtApp();
-  // Can't attach to ref because of Nuxt issues.
-  if (threeInstance?.stats) {
-    threeInstance.stats.domElement.remove();
-  }
+
   await nextTick();
   threeInstance = await ThreeInstance.load(
     el.value,
@@ -40,7 +36,7 @@ onMounted(async () => {
     ],
     video.value
   );
-  // threeInstance.configManager.init($dat);
+
   threeInstance.tick();
 
   loading.value = false;

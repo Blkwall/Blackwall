@@ -1,14 +1,6 @@
-import {
-  Color,
-  Mesh,
-  MeshBasicMaterial,
-  Object3D,
-  PlaneGeometry,
-  Scene,
-  Vector3,
-  WebGLRenderer,
-} from "three";
+import { Color, Scene, WebGLRenderer } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
+import { disableBodyScroll } from "body-scroll-lock";
 
 import Stats from "three/examples/jsm/libs/stats.module";
 import { Assets, loadAssets } from "./assets";
@@ -38,7 +30,7 @@ export class ThreeInstance {
 
   debugMode = false;
   sequences: { [key: string]: Animation };
-  activeSequenceKey: string = "intro";
+  activeSequenceKey: string = "main";
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -60,6 +52,8 @@ export class ThreeInstance {
 
     window.addEventListener("resize", () => this.resize());
     this.resize();
+    document.body.style.overflow = "hidden";
+    // disableBodyScroll(this.renderer.domElement);
 
     // Add objects.
     this.sceneObjectManager = new SceneObjectManager(this);
@@ -173,7 +167,7 @@ export class ThreeInstance {
   }
 
   destroy() {
-    document.body.style.height = "auto";
+    document.body.style.overflow = "auto";
     this.el.removeChild(this.renderer.domElement);
     cancelAnimationFrame(this.animationId);
     window.removeEventListener("resize", () => this.resize());

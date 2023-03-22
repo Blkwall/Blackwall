@@ -78,9 +78,11 @@ export class SceneObjectManager {
     // Add new objects.
     textures.forEach((texture: Texture | VideoTexture, index: number) => {
       const layers = 5;
-      const ratio = SceneObject.isVideoTexture(texture)
+      let ratio = SceneObject.isVideoTexture(texture)
         ? texture.source.data.videoHeight / texture.source.data.videoWidth
         : texture.image.height / texture.image.width;
+
+      if (!ratio) ratio = 1;
 
       const sceneObject = new SceneObject({
         texture,
@@ -150,16 +152,6 @@ export class SceneObjectManager {
           .add(direction.clone().multiplyScalar(0.25));
       }
     });
-  }
-
-  initIntroAnimation() {
-    const { camera } = this.threeInstance.cameraManager;
-    if (!this.introObject) return;
-    this.introObject.object.position.copy(this.animation.startPos);
-
-    // Move camera.
-    camera.position.copy(this.animation.startCamPos);
-    camera.lookAt(this.animation.startPos);
   }
 
   update(progress: number) {
