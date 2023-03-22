@@ -36,7 +36,6 @@ onMounted(async () => {
       "/images/TA_fashion_2021_17_b.jpg",
       "/videos/file_example_MP4_640_3MG.mp4",
       "/images/TA_fashion_2021_19.jpg",
-      "/images/TA_FX_2021_15.jpg",
       "/images/TA_FX_2021_26_a.jpg",
     ],
     video.value
