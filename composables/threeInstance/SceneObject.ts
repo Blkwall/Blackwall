@@ -34,6 +34,13 @@ export class SceneObject {
   alpha: number = 0;
   index: number;
   pos: Vector3 = new Vector3(0, 0, 0);
+  boundaries: {
+    top: number;
+    bottom: number;
+  } = {
+    top: 0,
+    bottom: 0,
+  };
   constructor({
     texture,
     sceneManager,

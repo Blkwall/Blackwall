@@ -1,6 +1,5 @@
 import { Color, Scene, WebGLRenderer } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
-import { disableBodyScroll } from "body-scroll-lock";
 
 import Stats from "three/examples/jsm/libs/stats.module";
 import { Assets, loadAssets } from "./assets";
@@ -11,8 +10,7 @@ import { Spiral } from "./spiral";
 import { ConfigManager } from "./config";
 import { InputManager } from "./input";
 import { Animation } from "./animation";
-import { sequence_intro } from "./Sequences/intro";
-import { sequence_main } from "./Sequences/main";
+import { sequence_intro, sequence_main } from "./Sequences";
 
 export class ThreeInstance {
   el: HTMLElement;
@@ -53,7 +51,6 @@ export class ThreeInstance {
     window.addEventListener("resize", () => this.resize());
     this.resize();
     document.body.style.overflow = "hidden";
-    // disableBodyScroll(this.renderer.domElement);
 
     // Add objects.
     this.sceneObjectManager = new SceneObjectManager(this);
@@ -61,16 +58,6 @@ export class ThreeInstance {
     this.spiral = new Spiral(this);
     // Place objects.
     this.sceneObjectManager.placeObjects(this.spiral.helixCurve);
-
-    // this.logo = new Mesh(
-    //   new PlaneGeometry(
-    //     5,
-    //     (5 * this.assets.logo.image.height) / this.assets.logo.image.width
-    //   ),
-    //   new MeshBasicMaterial({ map: this.assets.logo, transparent: true })
-    // );
-
-    // // this.scene.add(this.logo);
 
     this.sequences = {
       intro: sequence_intro,
@@ -140,20 +127,14 @@ export class ThreeInstance {
   }
 
   update() {
-    // Update logo position.
-    // const camPos = this.cameraManager.camera.position.clone();
-    // const camDir = this.cameraManager.camera.getWorldDirection(new Vector3());
-    // this.logo.position.copy(camPos.add(camDir.multiplyScalar(5)));
-    // this.logo.lookAt(this.cameraManager.camera.position);
-
     this.sequences[this.activeSequenceKey].update(this.progress, this);
+    this.stats.update();
   }
 
   animationId = 0;
   tick() {
     this.update();
     this.render();
-    this.stats.update();
     this.animationId = requestAnimationFrame(() => this.tick());
     TWEEN.update();
   }

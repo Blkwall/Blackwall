@@ -15,23 +15,6 @@ export class SceneObjectManager {
   lookAtCamera: boolean = false;
 
   introObject: SceneObject | null = null;
-  animation: {
-    duration: number;
-    delay: number;
-    distance: number;
-    startPos: Vector3;
-    endPos: Vector3;
-    startCamPos: Vector3;
-    endCamPos: Vector3;
-  } = {
-    duration: 7,
-    delay: 1,
-    distance: 0.5,
-    startPos: new Vector3(0, 0, 0),
-    endPos: new Vector3(0, 0, 0),
-    startCamPos: new Vector3(0, 0, 0),
-    endCamPos: new Vector3(0, 0, 0),
-  };
 
   constructor(threeInstance: ThreeInstance, loop?: boolean) {
     this.threeInstance = threeInstance;
@@ -75,14 +58,16 @@ export class SceneObjectManager {
   drawObjects(textures: (Texture | VideoTexture)[]) {
     this.resetModels();
 
+    const lastTexture = textures[textures.length - 1];
+    const loopedTextures = [lastTexture, ...textures];
     // Add new objects.
-    textures.forEach((texture: Texture | VideoTexture, index: number) => {
+    loopedTextures.forEach((texture: Texture | VideoTexture, index: number) => {
       const layers = 5;
       let ratio = SceneObject.isVideoTexture(texture)
         ? texture.source.data.videoHeight / texture.source.data.videoWidth
         : texture.image.height / texture.image.width;
 
-      if (!ratio) ratio = 1;
+      if (!ratio) ratio = 9 / 16;
 
       const sceneObject = new SceneObject({
         texture,
@@ -93,19 +78,6 @@ export class SceneObjectManager {
       });
       this.objects.push(sceneObject);
     });
-
-    // // Set loop.
-    if (this.loop) {
-      const last = this.objects[this.objects.length - 1];
-      const clone = new SceneObject({
-        texture: last.texture,
-        sceneManager: this,
-        ratio: last.ratio,
-        layers: last.layers,
-        index: -1,
-      });
-      this.objects.push(clone);
-    }
   }
 
   placeObjects(helixCurve: HelixCurve) {
@@ -124,6 +96,10 @@ export class SceneObjectManager {
       const alpha = (lastHeight + getHeight / 2) / this.totalHeight;
       lastHeight += getHeight + this.padding;
       sceneObject.alpha = alpha;
+      sceneObject.boundaries = {
+        top: alpha + getHeight / this.totalHeight,
+        bottom: alpha - getHeight / this.totalHeight,
+      };
 
       const point = helixCurve.getPointAt(Math.min(1, alpha));
 
@@ -135,22 +111,22 @@ export class SceneObjectManager {
 
       this.threeInstance.scene.add(object);
 
-      // Setup. intro animation.
-      if (index === objects.length - 1) {
-        this.animation.startPos = point
-          .clone()
-          .add(new Vector3(0, this.animation.distance, 0));
-        this.animation.endPos = point.clone();
-        this.introObject = sceneObject;
+      // // Setup. intro animation.
+      // if (index === objects.length - 1) {
+      //   this.animation.startPos = point
+      //     .clone()
+      //     .add(new Vector3(0, this.animation.distance, 0));
+      //   this.animation.endPos = point.clone();
+      //   this.introObject = sceneObject;
 
-        this.threeInstance.cameraManager.progressToCamPos(1);
-        this.animation.endCamPos =
-          this.threeInstance.cameraManager.camera.position.clone();
+      //   this.threeInstance.cameraManager.progressToCamPos(1);
+      //   this.animation.endCamPos =
+      //     this.threeInstance.cameraManager.camera.position.clone();
 
-        this.animation.startCamPos = this.animation.startPos
-          .clone()
-          .add(direction.clone().multiplyScalar(0.25));
-      }
+      //   this.animation.startCamPos = this.animation.startPos
+      //     .clone()
+      //     .add(direction.clone().multiplyScalar(0.25));
+      // }
     });
   }
 

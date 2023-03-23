@@ -1,4 +1,5 @@
 import { Animation } from "../animation";
+import * as TWEEN from "@tweenjs/tween.js";
 
 export const sequence_main = new Animation({
   loop: true,
@@ -13,6 +14,9 @@ export const sequence_main = new Animation({
     },
   ],
   onInit: (instance) => {
-    instance.inputManager.current = 0;
+    const { camera } = instance.cameraManager;
+    const camProgress =
+      camera.position.y / instance.sceneObjectManager.totalHeight;
+    instance.inputManager.progressToCurrent(1 - camProgress);
   },
 });

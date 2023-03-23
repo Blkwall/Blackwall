@@ -20,6 +20,10 @@ export class InputManager {
     this.mousePosition.y = -(e.clientY / window.innerHeight) * 2 + 1;
   }
 
+  progressToCurrent(progress: number) {
+    this.current = this.total * progress;
+  }
+
   get progress() {
     return this.current / this.total;
   }

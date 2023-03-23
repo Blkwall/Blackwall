@@ -32,15 +32,16 @@ export class CameraManager {
     const cameraPos = currentPoint
       .clone()
       .add(direction.multiplyScalar(this.config.distance));
-    this.camera.position.copy(cameraPos);
-    this.camera.lookAt(center);
-    this.debugCamera.position.y = currentPoint.y;
+
+    return cameraPos;
   }
 
   update(progress: number) {
-    if (this.instance.isIntro) return;
-
-    this.progressToCamPos(progress);
+    const cameraPos = this.progressToCamPos(progress);
+    const pointHeight = this.instance.spiral.helixCurve.getPointAt(progress).y;
+    this.camera.position.copy(cameraPos);
+    this.camera.lookAt(new Vector3(0, pointHeight, 0));
+    this.debugCamera.position.y = pointHeight;
 
     this.camera.updateProjectionMatrix();
   }
