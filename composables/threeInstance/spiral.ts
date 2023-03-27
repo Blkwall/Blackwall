@@ -56,7 +56,7 @@ export class Spiral {
     });
 
     this.config = {
-      radius: 8,
+      radius: 7,
       height: this.instance.sceneObjectManager.totalHeight,
     };
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);

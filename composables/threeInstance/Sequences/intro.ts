@@ -56,7 +56,7 @@ export const sequence_intro = new Animation({
     direction.y = 0;
     const objectStartPos = lastObject.object.position
       .clone()
-      .add(direction.multiplyScalar(3))
+      .add(direction.multiplyScalar(2))
       .add(new Vector3(0, 3, 0));
     animation.object.instance = lastObject.object;
     animation.object.start = objectStartPos;
@@ -85,21 +85,21 @@ export const sequence_intro = new Animation({
 
     // Start Object animation.
     new TWEEN.Tween({ progress: 0 })
-      .to({ progress: 1 }, 4000)
+      .to({ progress: 1 }, 5000)
       .onUpdate((obj) => {
         animation.object.progress = obj.progress;
       })
-      .easing(TWEEN.Easing.Quadratic.InOut)
+      .easing(TWEEN.Easing.Cubic.InOut)
       .delay(500)
       .start();
 
     // Start Cam animation.
     new TWEEN.Tween({ progress: 0 })
-      .to({ progress: 1 }, 4000)
+      .to({ progress: 1 }, 5000)
       .onUpdate((obj) => {
         animation.camera.progress = obj.progress;
       })
-      .easing(TWEEN.Easing.Quadratic.InOut)
+      .easing(TWEEN.Easing.Cubic.InOut)
       .delay(500)
       .onComplete(() => {
         document.body.style.height = instance.activeSequenceKey = "main";

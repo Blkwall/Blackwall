@@ -23,7 +23,7 @@ const onClick = (image: string) => {
 </script>
 
 <template>
-  <div class="grid gap-8 mb-8 md:grid-cols-6" v-for="row in rows">
+  <div class="grid gap-16 px-8 mt-8 mb-16 md:grid-cols-6" v-for="row in rows">
     <div
       :class="{
         'md:col-span-3': row.length === 2,

@@ -1,0 +1,60 @@
+{
+  "id": "scene_object",
+  "type": "SharedSlice",
+  "name": "SceneObject",
+  "description": "SceneObject",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "SceneObject",
+      "primary": {
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "layers": {
+          "type": "Number",
+          "config": {
+            "label": "layers",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {},
+      "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+    },
+    {
+      "id": "sceneObjectVideo",
+      "name": "Scene Object Video",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "SceneObject",
+      "primary": {
+        "video": {
+          "type": "Link",
+          "config": {
+            "label": "video",
+            "placeholder": "",
+            "select": "media"
+          }
+        },
+        "layers": {
+          "type": "Number",
+          "config": {
+            "label": "layers",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {},
+      "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+    }
+  ]
+}

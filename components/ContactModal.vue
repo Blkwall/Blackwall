@@ -1,7 +1,9 @@
 <script lang="tsx" setup></script>
 
 <template>
-  <div class="absolute flex items-center justify-between p-8 fill">
+  <div
+    class="absolute flex flex-wrap items-center justify-between gap-8 p-8 uppercase md:flex-nowrap fill"
+  >
     <div>Creative Duo</div>
     <div>Studio@blackwall.com</div>
     <div>Vimeo @blackwall</div>

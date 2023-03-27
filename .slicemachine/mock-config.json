@@ -1,0 +1,15 @@
+{
+  "_cts": {
+    "home": {}
+  },
+  "slices": {
+    "SceneObject": {
+      "default": {
+        "primary": {}
+      },
+      "sceneObjectVideo": {
+        "primary": {}
+      }
+    }
+  }
+}

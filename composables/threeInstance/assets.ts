@@ -17,6 +17,7 @@ const allValues = async <T extends object>(
 };
 
 const textureLoader = new TextureLoader();
+textureLoader.crossOrigin = "";
 
 export const loadAssets = (urls: string[], videoEls: HTMLVideoElement[]) => {
   return allValues({

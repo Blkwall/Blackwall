@@ -97,7 +97,7 @@ export class SceneObject {
 
     const { x, y } = mousePosition;
     const mousePos3d = new Vector3(x * -1, y * -1, 0);
-    const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.025));
+    const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.05));
     this.object.lookAt(lookAt);
   }
 

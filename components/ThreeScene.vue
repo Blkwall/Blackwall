@@ -1,16 +1,28 @@
 <script lang="tsx" setup>
 import { ThreeInstance } from "~~/composables/threeInstance/index";
+const { client } = usePrismic();
 
 const el = ref<HTMLElement>();
 const loading = ref(true);
 let threeInstance: ThreeInstance | null;
+const { data: home } = await useAsyncData("home", () =>
+  client.getSingle("home")
+);
 
-const videos = ref([
-  "/videos/testVideo.mp4",
-  "/videos/3.mp4",
-  "/videos/test_1.mp4",
-  "/videos/file_example_MP4_640_3MG.mp4",
-]);
+const videos = home.value?.data.slices
+  .filter((slice: any) => slice.variation === "sceneObjectVideo")
+  .map((slice: any) => slice.primary.video.url);
+
+const assetURLS = home.value?.data.slices.map((slice: any) => {
+  console.log(slice);
+  if (slice.variation === "sceneObjectVideo") {
+    return slice.primary.video.url;
+  }
+  if (slice.variation === "default") {
+    return slice.primary.image.url;
+  }
+  return null;
+});
 
 const video = ref();
 
@@ -20,23 +32,7 @@ onMounted(async () => {
     return;
   }
 
-  await nextTick();
-  threeInstance = await ThreeInstance.load(
-    el.value,
-    [
-      "/videos/test_1.mp4",
-      "/videos/3.mp4",
-      "/images/TA_fashion_2021_12_a.jpg",
-      "/videos/testVideo.mp4",
-      "/images/TA_fashion_2021_13 copy.jpg",
-      "/images/TA_fashion_2021_17_b.jpg",
-      "/videos/file_example_MP4_640_3MG.mp4",
-      "/images/TA_fashion_2021_19.jpg",
-      "/images/TA_FX_2021_26_a.jpg",
-    ],
-    video.value
-  );
-
+  threeInstance = await ThreeInstance.load(el.value, assetURLS, video.value);
   threeInstance.tick();
 
   loading.value = false;
@@ -76,7 +72,7 @@ onBeforeUnmount(() => {
     <div ref="el" class="fixed top-0 left-0 z-20 w-full h-full"></div>
     <div class="fixed z-10 fill fill-center">
       <div class="grid w-full md:grid-cols-12">
-        <div class="col-span-8 md:col-start-3">
+        <div class="col-span-6 md:col-start-4">
           <SVGLogo class="w-full h-full px-4" />
         </div>
       </div>
