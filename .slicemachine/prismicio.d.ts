@@ -35,7 +35,121 @@ type HomeDocumentDataSlicesSlice = SceneObjectSlice;
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomeDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
-export type AllDocumentTypes = HomeDocument;
+/** Content for Projects documents */
+interface ProjectsDocumentData {
+    /**
+     * Slice Zone field in *Projects*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: projects.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<ProjectsDocumentDataSlicesSlice>;
+}
+/**
+ * Slice for *Projects → Slice Zone*
+ *
+ */
+type ProjectsDocumentDataSlicesSlice = ProjectSlice;
+/**
+ * Projects document from Prismic
+ *
+ * - **API ID**: `projects`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProjectsDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<ProjectsDocumentData>, "projects", Lang>;
+export type AllDocumentTypes = HomeDocument | ProjectsDocument;
+/**
+ * Primary content in Project → Primary
+ *
+ */
+interface ProjectSliceDefaultPrimary {
+    /**
+     * Width field in *Project → Primary*
+     *
+     * - **Field Type**: Select
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.primary.width
+     * - **Documentation**: https://prismic.io/docs/core-concepts/select
+     *
+     */
+    width: prismicT.SelectField<"1/3" | "1/2" | "Full">;
+    /**
+     * Caption field in *Project → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: A nice description of your product
+     * - **API ID Path**: project.primary.caption
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    caption: prismicT.RichTextField;
+    /**
+     * Vimeo Link field in *Project → Primary*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.primary.vimeo_link
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    vimeo_link: prismicT.LinkField;
+    /**
+     * Video Preview field in *Project → Primary*
+     *
+     * - **Field Type**: Link to Media
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.primary.video_preview
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    video_preview: prismicT.LinkToMediaField;
+}
+/**
+ * Item in Project → Items
+ *
+ */
+export interface ProjectSliceDefaultItem {
+    /**
+     * Image field in *Project → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.items[].image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    image: prismicT.ImageField<never>;
+}
+/**
+ * Default variation for Project Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `Project`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ProjectSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<ProjectSliceDefaultPrimary>, Simplify<ProjectSliceDefaultItem>>;
+/**
+ * Slice variation for *Project*
+ *
+ */
+type ProjectSliceVariation = ProjectSliceDefault;
+/**
+ * Project Shared Slice
+ *
+ * - **API ID**: `project`
+ * - **Description**: `Project`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ProjectSlice = prismicT.SharedSlice<"project", ProjectSliceVariation>;
 /**
  * Primary content in SceneObject → Primary
  *
@@ -96,6 +210,26 @@ interface SceneObjectSliceSceneObjectVideoPrimary {
      *
      */
     layers: prismicT.NumberField;
+    /**
+     * Video width field in *SceneObject → Primary*
+     *
+     * - **Field Type**: Number
+     * - **Placeholder**: *None*
+     * - **API ID Path**: scene_object.primary.video_width
+     * - **Documentation**: https://prismic.io/docs/core-concepts/number
+     *
+     */
+    video_width: prismicT.NumberField;
+    /**
+     * Video Height field in *SceneObject → Primary*
+     *
+     * - **Field Type**: Number
+     * - **Placeholder**: *None*
+     * - **API ID Path**: scene_object.primary.video_height
+     * - **Documentation**: https://prismic.io/docs/core-concepts/number
+     *
+     */
+    video_height: prismicT.NumberField;
 }
 /**
  * Scene Object Video variation for SceneObject Slice
@@ -125,6 +259,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { HomeDocumentData, HomeDocumentDataSlicesSlice, HomeDocument, AllDocumentTypes, SceneObjectSliceDefaultPrimary, SceneObjectSliceDefault, SceneObjectSliceSceneObjectVideoPrimary, SceneObjectSliceSceneObjectVideo, SceneObjectSliceVariation, SceneObjectSlice };
+        export type { HomeDocumentData, HomeDocumentDataSlicesSlice, HomeDocument, ProjectsDocumentData, ProjectsDocumentDataSlicesSlice, ProjectsDocument, AllDocumentTypes, ProjectSliceDefaultPrimary, ProjectSliceDefaultItem, ProjectSliceDefault, ProjectSliceVariation, ProjectSlice, SceneObjectSliceDefaultPrimary, SceneObjectSliceDefault, SceneObjectSliceSceneObjectVideoPrimary, SceneObjectSliceSceneObjectVideo, SceneObjectSliceVariation, SceneObjectSlice };
     }
 }

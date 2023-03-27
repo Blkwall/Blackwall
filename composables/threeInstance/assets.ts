@@ -1,3 +1,4 @@
+import { text } from "stream/consumers";
 import { TextureLoader, VideoTexture } from "three";
 
 type AwaitedValues<T extends object> = {
@@ -30,6 +31,7 @@ export const loadAssets = (urls: string[], videoEls: HTMLVideoElement[]) => {
           )[0];
           const texture = new VideoTexture(video);
           video.play();
+
           return texture;
         } else {
           return textureLoader.loadAsync(url);

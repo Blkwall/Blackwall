@@ -15,7 +15,10 @@
           "type": "Image",
           "config": {
             "label": "image",
-            "constraint": {},
+            "constraint": {
+              "width": 1024,
+              "height": 768
+            },
             "thumbnails": []
           }
         },
@@ -49,6 +52,20 @@
           "type": "Number",
           "config": {
             "label": "layers",
+            "placeholder": ""
+          }
+        },
+        "video_width": {
+          "type": "Number",
+          "config": {
+            "label": "Video width",
+            "placeholder": ""
+          }
+        },
+        "video_height": {
+          "type": "Number",
+          "config": {
+            "label": "Video Height",
             "placeholder": ""
           }
         }

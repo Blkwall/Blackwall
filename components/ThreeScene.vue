@@ -11,10 +11,15 @@ const { data: home } = await useAsyncData("home", () =>
 
 const videos = home.value?.data.slices
   .filter((slice: any) => slice.variation === "sceneObjectVideo")
-  .map((slice: any) => slice.primary.video.url);
+  .map((slice: any) => {
+    return {
+      url: slice.primary.video.url,
+      width: slice.primary.video_height,
+      height: slice.primary.video_width,
+    };
+  });
 
 const assetURLS = home.value?.data.slices.map((slice: any) => {
-  console.log(slice);
   if (slice.variation === "sceneObjectVideo") {
     return slice.primary.video.url;
   }
@@ -27,6 +32,7 @@ const assetURLS = home.value?.data.slices.map((slice: any) => {
 const video = ref();
 
 onMounted(async () => {
+  console.log(home.value);
   if (!el.value) {
     console.error("No element to mount ThreeInstance to");
     return;
@@ -60,9 +66,12 @@ onBeforeUnmount(() => {
     <div v-for="video in videos" :key="video">
       <video
         ref="video"
+        crossorigin="anonymous"
         class="hidden"
-        :src="video"
-        :data-id="video"
+        :src="video.url"
+        :data-id="video.url"
+        :data-width="video.width"
+        :data-height="video.height"
         muted
         autoplay
         loop

@@ -76,7 +76,7 @@ export class Spiral {
     const distance = camera.position.distanceTo(
       this.helixCurve.getPoint(1 - this.instance.progress)
     );
-    const yShift = Math.tan(yFovRadiant / 4) * distance;
+    const yShift = Math.tan(yFovRadiant / 2) * distance;
     return yShift / this.config.height;
   }
 

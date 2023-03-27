@@ -64,7 +64,7 @@ export class SceneObjectManager {
     loopedTextures.forEach((texture: Texture | VideoTexture, index: number) => {
       const layers = 5;
       let ratio = SceneObject.isVideoTexture(texture)
-        ? texture.source.data.videoHeight / texture.source.data.videoWidth
+        ? texture.source.data.dataset.width / texture.source.data.dataset.height
         : texture.image.height / texture.image.width;
 
       if (!ratio) ratio = 9 / 16;

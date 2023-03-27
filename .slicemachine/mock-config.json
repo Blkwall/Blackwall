@@ -1,6 +1,7 @@
 {
   "_cts": {
-    "home": {}
+    "home": {},
+    "projects": {}
   },
   "slices": {
     "SceneObject": {
@@ -9,6 +10,12 @@
       },
       "sceneObjectVideo": {
         "primary": {}
+      }
+    },
+    "Project": {
+      "default": {
+        "primary": {},
+        "items": {}
       }
     }
   }

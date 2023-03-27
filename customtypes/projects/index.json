@@ -1,0 +1,21 @@
+{
+  "id": "projects",
+  "label": "Projects",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "project": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}
