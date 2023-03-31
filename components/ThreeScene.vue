@@ -1,4 +1,5 @@
 <script lang="tsx" setup>
+import { loadAssets } from "~~/composables/threeInstance/assets";
 import { ThreeInstance } from "~~/composables/threeInstance/index";
 const { client } = usePrismic();
 
@@ -29,23 +30,21 @@ const assetURLS = home.value?.data.slices.map((slice: any) => {
   return null;
 });
 
-const video = ref();
-
-watch(video, (v) => {
-  if (v) init(v);
-});
-
-const init = async (videoRefs: any[]) => {
+onMounted(async () => {
   if (!el.value) {
     console.error("No element to mount ThreeInstance to");
     return;
   }
-  const videos = Object.values(videoRefs);
-  threeInstance = await ThreeInstance.load(el.value, assetURLS, videos);
+  await nextTick();
+  const videos = [...document.querySelectorAll("video")];
+  threeInstance = new ThreeInstance(
+    el.value,
+    await loadAssets(assetURLS, videos)
+  );
   threeInstance.tick();
 
   loading.value = false;
-};
+});
 
 onBeforeUnmount(() => {
   if (!threeInstance) {
@@ -71,7 +70,6 @@ onBeforeUnmount(() => {
         ref="video"
         crossorigin="anonymous"
         class="hidden"
-        :src="video.url"
         :data-id="video.url"
         :data-width="video.width"
         :data-height="video.height"
@@ -79,7 +77,9 @@ onBeforeUnmount(() => {
         autoplay
         loop
         playsinline="true"
-      ></video>
+      >
+        <source :src="video.url" type="video/mp4" />
+      </video>
     </div>
     <div ref="el" class="fixed top-0 left-0 z-20 w-full h-full"></div>
     <div class="fixed z-10 fill fill-center">

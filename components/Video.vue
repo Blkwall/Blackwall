@@ -73,7 +73,7 @@ onMounted(async () => {
   </div>
 </template>
 
-<style lang="postcss">
+<style lang="scss">
 @import "plyr/dist/plyr.css";
 
 .video-player {
