@@ -30,14 +30,13 @@ const assetURLS = home.value?.data.slices.map((slice: any) => {
 });
 
 const video = ref();
-
 onMounted(async () => {
-  console.log(home.value);
   if (!el.value) {
     console.error("No element to mount ThreeInstance to");
     return;
   }
 
+  await nextTick();
   threeInstance = await ThreeInstance.load(el.value, assetURLS, video.value);
   threeInstance.tick();
 
