@@ -30,18 +30,22 @@ const assetURLS = home.value?.data.slices.map((slice: any) => {
 });
 
 const video = ref();
-onMounted(async () => {
+
+watch(video, (v) => {
+  if (v) init(v);
+});
+
+const init = async (videoRefs: any[]) => {
   if (!el.value) {
     console.error("No element to mount ThreeInstance to");
     return;
   }
-
-  await nextTick();
-  threeInstance = await ThreeInstance.load(el.value, assetURLS, video.value);
+  const videos = Object.values(videoRefs);
+  threeInstance = await ThreeInstance.load(el.value, assetURLS, videos);
   threeInstance.tick();
 
   loading.value = false;
-});
+};
 
 onBeforeUnmount(() => {
   if (!threeInstance) {

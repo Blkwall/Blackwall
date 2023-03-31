@@ -26,9 +26,7 @@ export const loadAssets = (urls: string[], videoEls: HTMLVideoElement[]) => {
     textures: allValues(
       urls.map((url) => {
         if (url.match(/\.(mp4)$/) != null) {
-          const video = [...document.querySelectorAll("video")].filter(
-            (v) => v.dataset.id === url
-          )[0];
+          const video = videoEls.filter((v) => v.dataset.id === url)[0];
           const texture = new VideoTexture(video);
           video.play();
 
