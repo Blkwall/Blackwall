@@ -9,9 +9,8 @@ const onRatio = (val: number) => {
 
 const onReize = () => {
   if (video.value) {
-    const maxHeight = window.innerHeight - 100;
+    const maxHeight = window.innerHeight - 140;
     // change video.value width to fit the screen using the aspect-ratio
-    console.log(ratio.value);
     if (ratio.value !== 0) {
       const width = Math.min(maxHeight * ratio.value, window.innerWidth);
       video.value.style.width = Math.min(width, maxHeight * ratio.value) + "px";
@@ -33,7 +32,7 @@ defineProps<{
   <div class="flex flex-col items-center gap-4 bg-opacity-50 fill">
     <!-- Content -->
     <PrismicText :field="project.primary.caption" />
-    <div class="relative flex items-center w-full h-full">
+    <div class="relative flex items-center w-full h-full mt-2 mb-6">
       <div
         v-if="project.primary.vimeo_link.url"
         ref="video"

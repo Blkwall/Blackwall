@@ -1,9 +1,11 @@
 import {
   AdditiveBlending,
+  Blending,
   DoubleSide,
   Group,
   Mesh,
   MeshBasicMaterial,
+  MultiplyBlending,
   NormalBlending,
   Object3D,
   PlaneGeometry,
@@ -64,13 +66,13 @@ export class SceneObject {
     return this.size * this.ratio;
   }
 
-  makeMaterial(texture: Texture, normalMode: boolean) {
+  makeMaterial(texture: Texture, blending: Blending) {
     return new MeshBasicMaterial({
       map: texture,
       side: DoubleSide,
       transparent: true,
       color: 0xffffff,
-      blending: normalMode ? NormalBlending : AdditiveBlending,
+      blending,
     });
   }
 
@@ -79,9 +81,13 @@ export class SceneObject {
     const geometry = new PlaneGeometry(this.size, this.size * this.ratio);
 
     for (let i = 0; i < this.layers; i++) {
-      const material = this.makeMaterial(this.texture, i === this.layers - 1);
+      let blendMode = AdditiveBlending;
+      if (i === 1) blendMode = MultiplyBlending;
+      const material = this.makeMaterial(this.texture, blendMode);
       const mesh = new Mesh(geometry, material);
       mesh.position.z -= this.gap * i;
+      // mesh.position.y += (Math.random() - 0.5) * 0.1;
+      // mesh.position.x += (Math.random() - 0.5) * 0.1;
       group.add(mesh);
     }
 

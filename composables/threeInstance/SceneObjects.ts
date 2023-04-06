@@ -62,7 +62,7 @@ export class SceneObjectManager {
     const loopedTextures = [lastTexture, ...textures];
     // Add new objects.
     loopedTextures.forEach((texture: Texture | VideoTexture, index: number) => {
-      const layers = 5;
+      const layers = 4;
       let ratio = SceneObject.isVideoTexture(texture)
         ? texture.source.data.dataset.width / texture.source.data.dataset.height
         : texture.image.height / texture.image.width;
