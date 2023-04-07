@@ -3,9 +3,13 @@ import { useStore } from "~~/store";
 
 const store = useStore();
 const contactOpen = ref(false);
-const onClick = () => {
+const onContactClick = () => {
   store.blurModalActive = true;
   contactOpen.value = true;
+};
+
+const onIndexClick = () => {
+  store.isProjects = true;
 };
 
 watchEffect(() => {
@@ -17,16 +21,24 @@ watchEffect(() => {
   <header class="fixed top-0 left-0 right-0 z-50 w-full">
     <transition name="fade">
       <nav
-        v-if="!store.blurModalActive"
-        class="absolute right-0 flex gap-4 p-8 tracking-wide text-white"
+        v-if="!store.blurModalActive && !store.isProjects"
+        class="absolute right-0 flex gap-4 p-6 tracking-wide text-white uppercase"
       >
-        <div @click="onClick" class="cursor-pointer md:hover:text-gray-500">
+        <div @click="onContactClick" class="cursor-pointer button-hover">
           Contact
         </div>
-        <nuxt-link to="/projects" :active-class="'text-gray-500'"
-          >Index</nuxt-link
-        >
+        <div @click="onIndexClick" class="cursor-pointer button-hover">
+          Index
+        </div>
       </nav>
+    </transition>
+    <transition name="fade">
+      <div
+        v-if="store.isProjects"
+        class="absolute right-0 flex gap-4 p-6 tracking-wide text-white uppercase"
+      >
+        <button @click="store.isProjects = false">CLOSE</button>
+      </div>
     </transition>
   </header>
 

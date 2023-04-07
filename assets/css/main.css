@@ -15,4 +15,7 @@
   .fill-center {
     @apply flex items-center justify-center;
   }
+  .button-hover {
+    @apply md:hover:text-gray-500 transition  ease-in-out;
+  }
 }

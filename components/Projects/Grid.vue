@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 const props = defineProps<{
-  slices: any[];
+  projects: any[];
 }>();
 
 const emit = defineEmits<{
@@ -13,9 +13,9 @@ const onClick = (image: string) => {
 </script>
 
 <template>
-  <div class="grid gap-16 px-8 mt-8 mb-16 md:grid-cols-6">
+  <div class="grid px-4 mt-8 mb-16 gap-28 md:grid-cols-6">
     <div
-      v-for="project in slices"
+      v-for="project in projects"
       :class="{
         'md:col-span-2': project.primary.width === '1/3',
         'md:col-span-3': project.primary.width === '1/2',
@@ -23,26 +23,18 @@ const onClick = (image: string) => {
       }"
       :key="project.id"
     >
-      <div v-if="project.primary.video_preview.url">
-        <video
-          @click="onClick(project)"
-          class="transition-transform cursor-pointer"
-          muted
-          autoplay
-          playsinline
-          loop
-        >
-          <source :src="project.primary.video_preview.url" type="video/mp4" />
-        </video>
-      </div>
-      <div
+      <ProjectsItemVideo
+        v-if="project.primary.video_preview.url"
+        :url="project.primary.video_preview.url"
+        @click="onClick(project)"
+      />
+
+      <ProjectsItemImage
         v-for="image in project.items.slice(0, 1)"
         :key="image.image.url"
+        :image="image.image"
         @click="onClick(project)"
-        class="transition-transform cursor-pointer"
-      >
-        <prismic-image :field="image.image" />
-      </div>
+      />
     </div>
   </div>
 </template>

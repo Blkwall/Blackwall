@@ -3,12 +3,28 @@ import { loadAssets } from "~~/composables/threeInstance/assets";
 import { ThreeInstance } from "~~/composables/threeInstance/index";
 const { client } = usePrismic();
 
+const props = defineProps<{
+  isProjects: boolean;
+}>();
+
 const el = ref<HTMLElement>();
 const loading = ref(true);
 let threeInstance: ThreeInstance | null;
 const { data: home } = await useAsyncData("home", () =>
   client.getSingle("home")
 );
+
+watch(
+  () => props.isProjects,
+  (isProjects) => {
+    if (!threeInstance) return;
+    threeInstance.setIsProjects(isProjects);
+  }
+);
+
+const background_video = computed(() => {
+  return home.value?.data.background_video && false;
+});
 
 const videos = home.value?.data.slices
   .filter((slice: any) => slice.variation === "sceneObjectVideo")
@@ -41,8 +57,8 @@ onMounted(async () => {
     el.value,
     await loadAssets(assetURLS, videos)
   );
+  await nextTick();
   threeInstance.tick();
-
   loading.value = false;
 });
 
@@ -53,18 +69,20 @@ onBeforeUnmount(() => {
   threeInstance.destroy();
   threeInstance = null;
 });
+
+const isExit = ref(false);
+onBeforeRouteLeave(async (to, from) => {
+  isExit.value = true;
+  if (!threeInstance) return true;
+  if (threeInstance.activeSequenceKey !== "main") return true;
+  await new Promise((r) => setTimeout(r, 1000));
+  return true;
+});
 </script>
 
 <template>
   <div id="wrapper">
-    <Transition name="fade" mode="out-in">
-      <div
-        v-if="loading"
-        class="fixed z-30 text-white bg-black fill fill-center"
-      >
-        <div>Loading...</div>
-      </div>
-    </Transition>
+    <!-- Video Assets (Hidden) -->
     <div v-for="video in videos" :key="video">
       <video
         ref="video"
@@ -81,13 +99,53 @@ onBeforeUnmount(() => {
         <source :src="video.url" type="video/mp4" />
       </video>
     </div>
-    <div ref="el" class="fixed top-0 left-0 z-20 w-full h-full"></div>
-    <div class="fixed z-10 fill fill-center">
-      <div class="grid w-full md:grid-cols-12">
-        <div class="col-span-6 md:col-start-4">
-          <SVGLogo class="w-full h-full px-4" />
+
+    <!-- THREE.js Scene -->
+    <Transition name="fade">
+      <div ref="el" class="fixed top-0 left-0 z-30 w-full h-full"></div>
+    </Transition>
+
+    <!-- Background Video -->
+    <Transition name="fade">
+      <div
+        v-if="background_video && !loading"
+        class="fixed top-0 left-0 w-full h-full"
+      >
+        <video
+          ref="video"
+          crossorigin="anonymous"
+          :data-id="background_video.url"
+          :data-width="background_video.width"
+          :data-height="background_video.height"
+          muted
+          autoplay
+          loop
+          playsinline="true"
+          class="object-cover w-full h-full"
+        >
+          <source :src="background_video.url" type="video/mp4" />
+        </video>
+      </div>
+    </Transition>
+
+    <!-- Logo -->
+    <Transition name="fade">
+      <div v-if="!loading" class="fixed z-10 fill fill-center">
+        <div class="grid w-full md:grid-cols-12">
+          <div class="col-span-6 md:col-start-4">
+            <SVGLogo
+              class="w-full h-full px-4 transition-transform ease-in-out delay-1000"
+              :style="{
+                'transition-duration': '6s',
+              }"
+              :class="{
+                'scale-150': loading,
+                'scale-100': !loading,
+              }"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>

@@ -1,9 +1,20 @@
 {
+  "background_video": {
+    "__TYPE__": "LinkContent",
+    "value": {
+      "id": "mock_Media_link",
+      "kind": "image/jpeg",
+      "name": "mock_name",
+      "url": "https://source.unsplash.com/daily",
+      "size": "0",
+      "__TYPE__": "FileLink"
+    }
+  },
   "slices": {
     "__TYPE__": "SliceContentType",
     "value": [
       {
-        "key": "scene_object$09deeed0-ddfa-4a50-837d-e1426c71a73b",
+        "key": "scene_object$50cef1a1-3d42-40ff-8580-2458b2adf019",
         "name": "scene_object",
         "widget": {
           "__TYPE__": "SharedSliceContent",
@@ -13,37 +24,26 @@
               "__TYPE__": "ImageContent",
               "origin": {
                 "id": "main",
-                "url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
-                "width": 4000,
-                "height": 4000
+                "url": "https://images.unsplash.com/photo-1551739440-5dd934d3a94a",
+                "width": 3456,
+                "height": 4320
               },
-              "url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
-              "width": 4000,
-              "height": 4000,
+              "url": "https://images.unsplash.com/photo-1551739440-5dd934d3a94a?rect=0%2C864%2C3456%2C2592&w=1024&h=768",
+              "width": 1024,
+              "height": 768,
               "edit": {
                 "zoom": 1,
                 "crop": {
                   "x": 0,
-                  "y": 0
+                  "y": 864
                 },
                 "background": "transparent"
               },
               "thumbnails": {}
             },
-            "video": {
-              "__TYPE__": "LinkContent",
-              "value": {
-                "id": "mock_Media_link",
-                "kind": "image/jpeg",
-                "name": "mock_name",
-                "url": "https://source.unsplash.com/daily",
-                "size": "0",
-                "__TYPE__": "FileLink"
-              }
-            },
             "layers": {
               "__TYPE__": "FieldContent",
-              "value": "94",
+              "value": "0",
               "type": "Number"
             }
           },

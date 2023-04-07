@@ -9,6 +9,17 @@ type Simplify<T> = {
 /** Content for Home documents */
 interface HomeDocumentData {
     /**
+     * Background Video field in *Home*
+     *
+     * - **Field Type**: Link to Media
+     * - **Placeholder**: *None*
+     * - **API ID Path**: home.background_video
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    background_video: prismicT.LinkToMediaField;
+    /**
      * Slice Zone field in *Home*
      *
      * - **Field Type**: Slice Zone
@@ -37,6 +48,17 @@ type HomeDocumentDataSlicesSlice = SceneObjectSlice;
 export type HomeDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
 /** Content for Projects documents */
 interface ProjectsDocumentData {
+    /**
+     * Tagline field in *Projects*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: projects.tagline
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    tagline: prismicT.KeyTextField;
     /**
      * Slice Zone field in *Projects*
      *

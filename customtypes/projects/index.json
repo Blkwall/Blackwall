@@ -5,6 +5,13 @@
   "status": true,
   "json": {
     "Main": {
+      "tagline": {
+        "type": "Text",
+        "config": {
+          "label": "Tagline",
+          "placeholder": ""
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

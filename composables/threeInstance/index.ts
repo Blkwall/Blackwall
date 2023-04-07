@@ -11,6 +11,7 @@ import { ConfigManager } from "./config";
 import { InputManager } from "./input";
 import { Animation } from "./animation";
 import { sequence_intro, sequence_main } from "./Sequences";
+import { sequence_exit } from "./Sequences/exit";
 
 export class ThreeInstance {
   el: HTMLElement;
@@ -29,6 +30,8 @@ export class ThreeInstance {
   debugMode = false;
   sequences: { [key: string]: Animation };
   activeSequenceKey: string = "intro";
+
+  isProjects: boolean = false;
 
   constructor(el: HTMLElement, assets: Assets) {
     this.el = el;
@@ -62,6 +65,7 @@ export class ThreeInstance {
     this.sequences = {
       intro: sequence_intro,
       main: sequence_main,
+      exit: sequence_exit,
     };
   }
 
@@ -133,10 +137,12 @@ export class ThreeInstance {
 
   animationId = 0;
   tick() {
-    this.update();
-    this.render();
+    if (!this.isProjects) {
+      this.update();
+      this.render();
+      TWEEN.update();
+    }
     this.animationId = requestAnimationFrame(() => this.tick());
-    TWEEN.update();
   }
 
   static async load(
@@ -152,5 +158,19 @@ export class ThreeInstance {
     this.el.removeChild(this.renderer.domElement);
     cancelAnimationFrame(this.animationId);
     window.removeEventListener("resize", () => this.resize());
+  }
+
+  async triggerExit() {
+    this.activeSequenceKey = "exit";
+    return new Promise((r) => setTimeout(r, 1000));
+  }
+
+  setIsProjects(isProjects: boolean) {
+    this.isProjects = isProjects;
+    if (this.isProjects) {
+      document.body.style.overflow = "auto";
+    } else {
+      document.body.style.overflow = "hidden";
+    }
   }
 }

@@ -5,6 +5,14 @@
   "status": true,
   "json": {
     "Main": {
+      "background_video": {
+        "type": "Link",
+        "config": {
+          "label": "Background Video",
+          "placeholder": "",
+          "select": "media"
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
