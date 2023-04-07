@@ -23,7 +23,7 @@ watch(
 );
 
 const background_video = computed(() => {
-  return home.value?.data.background_video && false;
+  return home.value?.data.background_video;
 });
 
 const videos = home.value?.data.slices
