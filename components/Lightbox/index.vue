@@ -21,7 +21,7 @@ const emit = defineEmits<{
 
     <!-- Content -->
     <div
-      class="relative flex items-center justify-center w-full h-full mt-0 mb-6"
+      class="relative flex items-center justify-center w-full h-full mt-0 mb-10"
     >
       <LightboxVideo
         v-if="project.primary.vimeo_link.url"

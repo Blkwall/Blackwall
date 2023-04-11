@@ -1,4 +1,8 @@
-<script lang="tsx" setup></script>
+<script lang="tsx" setup>
+import { useStore } from "~~/store";
+
+const store = useStore();
+</script>
 
 <template>
   <div

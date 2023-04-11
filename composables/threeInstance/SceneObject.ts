@@ -83,8 +83,11 @@ export class SceneObject {
 
     for (let i = 0; i < this.layers; i++) {
       let blendMode = AdditiveBlending;
-      if (i === 1) blendMode = MultiplyBlending;
+      if (i === 1) {
+        blendMode = MultiplyBlending;
+      }
       const material = this.makeMaterial(this.texture, blendMode);
+
       const mesh = new Mesh(geometry, material);
       mesh.position.z -= this.gap * i;
       group.add(mesh);
@@ -103,6 +106,7 @@ export class SceneObject {
     const { x, y } = mousePosition;
     const mousePos3d = new Vector3(x * -1, y * -1, 0);
     const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.1));
+
     this.object.lookAt(lookAt);
   }
 

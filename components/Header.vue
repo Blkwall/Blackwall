@@ -11,6 +11,11 @@ const onContactClick = () => {
 const onIndexClick = () => {
   store.isProjects = true;
 };
+const onLogoClick = () => {
+  store.isProjects = false;
+  store.blurModalActive = false;
+  contactOpen.value = false;
+};
 
 watchEffect(() => {
   if (!store.blurModalActive) contactOpen.value = false;
@@ -21,24 +26,32 @@ watchEffect(() => {
   <header class="fixed top-0 left-0 right-0 z-50 w-full">
     <transition name="fade">
       <nav
-        v-if="!store.blurModalActive && !store.isProjects"
+        v-if="store.isProjects && !store.blurModalActive"
+        class="absolute left-0 flex gap-4 p-6 tracking-wide text-white uppercase"
+      >
+        <div class="cursor-pointer button-hover" @click="onLogoClick">
+          Blackwall
+        </div>
+      </nav>
+    </transition>
+    <transition name="fade">
+      <nav
+        v-if="!store.blurModalActive"
         class="absolute right-0 flex gap-4 p-6 tracking-wide text-white uppercase"
       >
         <div @click="onContactClick" class="cursor-pointer button-hover">
           Contact
         </div>
-        <div @click="onIndexClick" class="cursor-pointer button-hover">
+        <div
+          @click="onIndexClick"
+          class="cursor-pointer button-hover"
+          :class="{
+            'text-gray-500': store.isProjects,
+          }"
+        >
           Index
         </div>
       </nav>
-    </transition>
-    <transition name="fade">
-      <div
-        v-if="store.isProjects"
-        class="absolute right-0 flex gap-4 p-6 tracking-wide text-white uppercase"
-      >
-        <button @click="store.isProjects = false">CLOSE</button>
-      </div>
     </transition>
   </header>
 

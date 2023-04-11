@@ -33,12 +33,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="video" class="w-full mx-auto overflow-hidden">
-    <div
-      v-if="!videoReady"
-      class="absolute top-0 left-0 flex items-center justify-center w-full h-full tracking-wider uppercase"
-    >
-      LOADING
-    </div>
     <Video
       ref="video"
       class="w-full transition-opacity duration-300 opacity-0 delay-50"
