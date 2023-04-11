@@ -150,7 +150,7 @@ onBeforeRouteLeave(async (to, from) => {
         <div class="grid w-full md:grid-cols-12">
           <div class="col-span-6 md:col-start-4">
             <SVGLogo
-              class="w-full h-full px-4 transition-transform ease-in-out delay-1000"
+              class="w-full h-full px-24 transition-transform ease-in-out delay-1000"
               :style="{
                 'transition-duration': '5s',
                 transform: isLoading ? 'scale(1.5)' : 'scale(1)',

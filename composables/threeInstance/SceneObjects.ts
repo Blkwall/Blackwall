@@ -10,7 +10,7 @@ export class SceneObjectManager {
   objects: SceneObject[] = [];
   objectSize = 1;
   gap = 0.025;
-  padding = 0.25;
+  padding = 0.1;
   loop: boolean = true;
   lookAtCamera: boolean = false;
 

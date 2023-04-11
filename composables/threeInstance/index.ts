@@ -31,7 +31,7 @@ export class ThreeInstance {
 
   debugMode = false;
   sequences: { [key: string]: Animation };
-  activeSequenceKey: string = "intro";
+  activeSequenceKey: string = "main";
 
   isProjects: boolean = false;
 

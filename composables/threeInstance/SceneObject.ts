@@ -2,6 +2,7 @@ import {
   AdditiveBlending,
   Blending,
   DoubleSide,
+  FrontSide,
   Group,
   Mesh,
   MeshBasicMaterial,
@@ -69,7 +70,7 @@ export class SceneObject {
   makeMaterial(texture: Texture, blending: Blending) {
     return new MeshBasicMaterial({
       map: texture,
-      side: DoubleSide,
+      side: FrontSide,
       transparent: true,
       color: 0xffffff,
       blending,
@@ -101,7 +102,7 @@ export class SceneObject {
 
     const { x, y } = mousePosition;
     const mousePos3d = new Vector3(x * -1, y * -1, 0);
-    const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.05));
+    const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.1));
     this.object.lookAt(lookAt);
   }
 
