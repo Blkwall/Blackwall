@@ -8,7 +8,12 @@ const isProjects = computed(() => store.isProjects);
 <template>
   <div class="">
     <Transition name="fade">
-      <ThreeScene v-show="!isProjects" :is-projects="isProjects" />
+      <ThreeScene
+        @click="store.isProjects = true"
+        class="cursor-pointer"
+        v-show="!isProjects"
+        :is-projects="isProjects"
+      />
     </Transition>
 
     <Transition name="fade">
