@@ -6,8 +6,10 @@ const isProjects = computed(() => store.isProjects);
 </script>
 
 <template>
-  <div class="bg-black">
-    <ThreeScene :is-projects="isProjects" />
+  <div class="">
+    <Transition name="fade">
+      <ThreeScene v-show="!isProjects" :is-projects="isProjects" />
+    </Transition>
 
     <Transition name="fade">
       <div v-if="isProjects" class="relative z-30 p-8 bg-black">

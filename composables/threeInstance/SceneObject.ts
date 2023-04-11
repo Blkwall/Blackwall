@@ -86,8 +86,6 @@ export class SceneObject {
       const material = this.makeMaterial(this.texture, blendMode);
       const mesh = new Mesh(geometry, material);
       mesh.position.z -= this.gap * i;
-      // mesh.position.y += (Math.random() - 0.5) * 0.1;
-      // mesh.position.x += (Math.random() - 0.5) * 0.1;
       group.add(mesh);
     }
 

@@ -16,6 +16,8 @@ import { sequence_exit } from "./Sequences/exit";
 export class ThreeInstance {
   el: HTMLElement;
   assets: Assets;
+  slices: any[];
+
   renderer: WebGLRenderer;
 
   configManager: ConfigManager;
@@ -33,9 +35,10 @@ export class ThreeInstance {
 
   isProjects: boolean = false;
 
-  constructor(el: HTMLElement, assets: Assets) {
+  constructor(el: HTMLElement, assets: Assets, slices: any[]) {
     this.el = el;
     this.assets = assets;
+    this.slices = slices;
 
     this.renderer = new WebGLRenderer({ antialias: true, alpha: true });
     el.appendChild(this.renderer.domElement);
@@ -130,7 +133,12 @@ export class ThreeInstance {
     return progress;
   }
 
+  currentSequence: null | string = null;
   update() {
+    if (this.currentSequence !== this.activeSequenceKey) {
+      this.currentSequence = this.activeSequenceKey;
+      window.dispatchEvent(new CustomEvent("sequenceChange"));
+    }
     this.sequences[this.activeSequenceKey].update(this.progress, this);
     this.stats.update();
   }

@@ -44,13 +44,10 @@ const onNavClick = (direction: -1 | 1) => {
 </script>
 
 <template>
-  <div class="relative z-10 min-h-screen pb-4 bg-black">
+  <div class="relative z-10 min-h-screen pb-4">
     <ProjectsGrid @image-click="onImageClick" :projects="projects" />
   </div>
-  <div
-    v-if="tagline"
-    class="sticky bottom-0 flex items-center justify-center w-full py-24"
-  >
+  <div v-if="tagline" class="flex items-center justify-center w-full py-24">
     <span class="tracking-wide" v-html="tagline"></span>
   </div>
 

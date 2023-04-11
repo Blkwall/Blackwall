@@ -8,11 +8,19 @@ const props = defineProps<{
 }>();
 
 const el = ref<HTMLElement>();
-const loading = ref(true);
+const bgVideo = ref<HTMLVideoElement>();
+const isLoading = ref(true);
 let threeInstance: ThreeInstance | null;
 const { data: home } = await useAsyncData("home", () =>
   client.getSingle("home")
 );
+
+const isMain = ref(false);
+if (process.client) {
+  window.addEventListener("sequenceChange", () => {
+    isMain.value = threeInstance?.activeSequenceKey === "main";
+  });
+}
 
 watch(
   () => props.isProjects,
@@ -51,15 +59,17 @@ onMounted(async () => {
     console.error("No element to mount ThreeInstance to");
     return;
   }
+
   await nextTick();
   const videos = [...document.querySelectorAll("video")];
   threeInstance = new ThreeInstance(
     el.value,
-    await loadAssets(assetURLS, videos)
+    await loadAssets(assetURLS, videos),
+    home.value?.data.slices
   );
   await nextTick();
   threeInstance.tick();
-  loading.value = false;
+  isLoading.value = false;
 });
 
 onBeforeUnmount(() => {
@@ -108,11 +118,11 @@ onBeforeRouteLeave(async (to, from) => {
     <!-- Background Video -->
     <Transition name="fade">
       <div
-        v-if="background_video && !loading"
+        v-if="background_video && !isLoading"
         class="fixed top-0 left-0 w-full h-full"
       >
         <video
-          ref="video"
+          ref="bgVideo"
           crossorigin="anonymous"
           :data-id="background_video.url"
           :data-width="background_video.width"
@@ -130,17 +140,20 @@ onBeforeRouteLeave(async (to, from) => {
 
     <!-- Logo -->
     <Transition name="fade">
-      <div v-if="!loading" class="fixed z-10 fill fill-center">
+      <div
+        class="fixed fill fill-center"
+        :class="{
+          'z-30': !isMain,
+          'z-10': isMain,
+        }"
+      >
         <div class="grid w-full md:grid-cols-12">
           <div class="col-span-6 md:col-start-4">
             <SVGLogo
               class="w-full h-full px-4 transition-transform ease-in-out delay-1000"
               :style="{
-                'transition-duration': '6s',
-              }"
-              :class="{
-                'scale-150': loading,
-                'scale-100': !loading,
+                'transition-duration': '5s',
+                transform: isLoading ? 'scale(1.5)' : 'scale(1)',
               }"
             />
           </div>

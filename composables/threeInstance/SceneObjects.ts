@@ -55,6 +55,12 @@ export class SceneObjectManager {
     this.objects = [];
   }
 
+  getObjectLayers(index: number) {
+    const slice = this.threeInstance.slices[index];
+    const layers = slice?.primary?.layers || 4;
+    return layers;
+  }
+
   drawObjects(textures: (Texture | VideoTexture)[]) {
     this.resetModels();
 
@@ -62,7 +68,7 @@ export class SceneObjectManager {
     const loopedTextures = [lastTexture, ...textures];
     // Add new objects.
     loopedTextures.forEach((texture: Texture | VideoTexture, index: number) => {
-      const layers = 4;
+      const layers = this.getObjectLayers(index);
       let ratio = SceneObject.isVideoTexture(texture)
         ? texture.source.data.dataset.width / texture.source.data.dataset.height
         : texture.image.height / texture.image.width;
