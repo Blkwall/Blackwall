@@ -1,4 +1,4 @@
-import { Color, Scene, WebGLRenderer } from "three";
+import { Color, Raycaster, Scene, WebGLRenderer } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 
 import Stats from "three/examples/jsm/libs/stats.module";
@@ -34,6 +34,7 @@ export class ThreeInstance {
   activeSequenceKey: string = "intro";
 
   isProjects: boolean = false;
+  raycaster: Raycaster = new Raycaster();
 
   constructor(el: HTMLElement, assets: Assets, slices: any[]) {
     this.el = el;
@@ -141,6 +142,10 @@ export class ThreeInstance {
     }
     this.sequences[this.activeSequenceKey].update(this.progress, this);
     this.stats.update();
+    this.raycaster.setFromCamera(
+      this.inputManager.mousePosition,
+      this.cameraManager.camera
+    );
   }
 
   animationId = 0;
@@ -153,13 +158,13 @@ export class ThreeInstance {
     this.animationId = requestAnimationFrame(() => this.tick());
   }
 
-  static async load(
-    el: HTMLElement,
-    assets: string[],
-    videoEls: HTMLVideoElement[]
-  ) {
-    return new ThreeInstance(el, await loadAssets(assets, videoEls));
-  }
+  // static async load(
+  //   el: HTMLElement,
+  //   assets: string[],
+  //   videoEls: HTMLVideoElement[]
+  // ) {
+  //   return new ThreeInstance(el, await loadAssets(assets, videoEls));
+  // }
 
   destroy() {
     document.body.style.overflow = "auto";

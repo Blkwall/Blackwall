@@ -141,10 +141,11 @@ onBeforeRouteLeave(async (to, from) => {
     <!-- Logo -->
     <Transition name="fade">
       <div
-        class="fixed fill fill-center"
+        class="fixed transition-colors duration-1000 fill fill-center"
         :class="{
           'z-30': !isMain,
           'z-10': isMain,
+          'bg-black': isLoading,
         }"
       >
         <div class="grid w-full md:grid-cols-12">

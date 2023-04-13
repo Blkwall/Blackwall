@@ -96,6 +96,7 @@ export class SceneObject {
     return group;
   }
 
+  raycasterLerp = new Vector3();
   update(progress: number, mousePosition: Vector2) {
     const distance = this.getWrappedProgress(this.alpha, progress);
     const mappedDistance = map(distance, 0, 0.5, 1, 0);
@@ -103,9 +104,25 @@ export class SceneObject {
     const { lineVisible } = this.sceneManager.threeInstance.spiral;
     this.object.visible = 1 - mappedDistance < lineVisible;
 
-    const { x, y } = mousePosition;
-    const mousePos3d = new Vector3(x * -1, y * -1, 0);
-    const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.1));
+    // const { x, y } = mousePosition;
+    const raycasterTilt = new Vector3();
+    // const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.1));
+    const intersection =
+      this.sceneManager.threeInstance.raycaster.intersectObject(this.object)[0];
+    if (intersection && intersection.uv) {
+      const {
+        uv: { x, y },
+      } = intersection;
+      const mappedX = map(x, 0, 1, -0.5, 0.5);
+      const mappedY = map(y, 0, 1, -0.5, 0.5);
+      raycasterTilt.set(mappedX, mappedY, 0);
+    } else {
+      raycasterTilt.set(0, 0, 0);
+    }
+    this.raycasterLerp.lerp(raycasterTilt, 0.05);
+    const lookAt = this.direction
+      .clone()
+      .add(this.raycasterLerp.multiplyScalar(0.85));
 
     this.object.lookAt(lookAt);
   }
