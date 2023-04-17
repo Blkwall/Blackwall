@@ -7,8 +7,6 @@ import {
   Mesh,
   MeshBasicMaterial,
   MultiplyBlending,
-  NormalBlending,
-  Object3D,
   PlaneGeometry,
   Texture,
   Vector2,
@@ -68,9 +66,10 @@ export class SceneObject {
   }
 
   makeMaterial(texture: Texture, blending: Blending) {
+    const hash = window.location.hash;
     return new MeshBasicMaterial({
       map: texture,
-      side: FrontSide,
+      side: hash === "#double" ? DoubleSide : FrontSide,
       transparent: true,
       color: 0xffffff,
       blending,
@@ -83,9 +82,8 @@ export class SceneObject {
 
     for (let i = 0; i < this.layers; i++) {
       let blendMode = AdditiveBlending;
-      if (i === 1) {
-        blendMode = MultiplyBlending;
-      }
+      if (i === 1) blendMode = MultiplyBlending;
+
       const material = this.makeMaterial(this.texture, blendMode);
 
       const mesh = new Mesh(geometry, material);
@@ -113,16 +111,16 @@ export class SceneObject {
       const {
         uv: { x, y },
       } = intersection;
-      const mappedX = map(x, 0, 1, -0.5, 0.5);
+      const mappedX = map(x, 0, 1, 0.5, -0.5);
       const mappedY = map(y, 0, 1, -0.5, 0.5);
       raycasterTilt.set(mappedX, mappedY, 0);
     } else {
       raycasterTilt.set(0, 0, 0);
     }
-    this.raycasterLerp.lerp(raycasterTilt, 0.05);
+    this.raycasterLerp.lerp(raycasterTilt, 0.1);
     const lookAt = this.direction
       .clone()
-      .add(this.raycasterLerp.multiplyScalar(0.85));
+      .add(this.raycasterLerp.multiplyScalar(1));
 
     this.object.lookAt(lookAt);
   }

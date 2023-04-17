@@ -13,6 +13,8 @@ import { Animation } from "./animation";
 import { sequence_intro, sequence_main } from "./Sequences";
 import { sequence_exit } from "./Sequences/exit";
 
+const hash = process.client ? window.location.hash : false;
+
 export class ThreeInstance {
   el: HTMLElement;
   assets: Assets;
@@ -29,7 +31,7 @@ export class ThreeInstance {
   inputManager: InputManager;
   spiral: Spiral;
 
-  debugMode = false;
+  debugMode = hash === "#debug";
   sequences: { [key: string]: Animation };
   activeSequenceKey: string = "intro";
 

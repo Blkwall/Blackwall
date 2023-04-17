@@ -8,8 +8,8 @@ import { HelixCurve } from "./spiral";
 export class SceneObjectManager {
   threeInstance: ThreeInstance;
   objects: SceneObject[] = [];
-  objectSize = 1;
-  gap = 0.025;
+  objectSize = 0.85;
+  gap = 0.04;
   padding = 0.1;
   loop: boolean = true;
   lookAtCamera: boolean = false;

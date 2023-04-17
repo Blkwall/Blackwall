@@ -118,7 +118,7 @@ onBeforeRouteLeave(async (to, from) => {
     <!-- Background Video -->
     <Transition name="fade">
       <div
-        v-if="background_video && !isLoading"
+        v-if="background_video && !isLoading && false"
         class="fixed top-0 left-0 w-full h-full"
       >
         <video

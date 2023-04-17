@@ -57,7 +57,7 @@ export const sequence_intro = new Animation({
     const objectStartPos = lastObject.object.position
       .clone()
       .add(direction.multiplyScalar(2))
-      .add(new Vector3(0, 3, 0));
+      .add(new Vector3(0, 1, 0));
     animation.object.instance = lastObject.object;
     animation.object.start = objectStartPos;
     animation.object.end = lastObject.pos;
