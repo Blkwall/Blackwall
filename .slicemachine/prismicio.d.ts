@@ -101,7 +101,7 @@ interface ProjectSliceDefaultPrimary {
      * - **Documentation**: https://prismic.io/docs/core-concepts/select
      *
      */
-    width: prismicT.SelectField<"1/3" | "1/2" | "Full">;
+    width: prismicT.SelectField<"1/3" | "1/2" | "Full" | "1/4">;
     /**
      * Caption field in *Project → Primary*
      *

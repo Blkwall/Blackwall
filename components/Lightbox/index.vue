@@ -1,6 +1,4 @@
 <script lang="tsx" setup>
-import { emit } from "process";
-
 defineProps<{
   project: any;
 }>();

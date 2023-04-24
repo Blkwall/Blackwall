@@ -97,7 +97,7 @@ export class SceneObjectManager {
     let lastHeight = firstObjectHeight * -0.5;
 
     objects.forEach((sceneObject: SceneObject, index: number) => {
-      const { object, getHeight } = sceneObject;
+      const { object, getHeight, raycasterReceiver } = sceneObject;
 
       const alpha = (lastHeight + getHeight / 2) / this.totalHeight;
       lastHeight += getHeight + this.padding;
@@ -117,22 +117,8 @@ export class SceneObjectManager {
 
       this.threeInstance.scene.add(object);
 
-      // // Setup. intro animation.
-      // if (index === objects.length - 1) {
-      //   this.animation.startPos = point
-      //     .clone()
-      //     .add(new Vector3(0, this.animation.distance, 0));
-      //   this.animation.endPos = point.clone();
-      //   this.introObject = sceneObject;
-
-      //   this.threeInstance.cameraManager.progressToCamPos(1);
-      //   this.animation.endCamPos =
-      //     this.threeInstance.cameraManager.camera.position.clone();
-
-      //   this.animation.startCamPos = this.animation.startPos
-      //     .clone()
-      //     .add(direction.clone().multiplyScalar(0.25));
-      // }
+      raycasterReceiver.position.copy(point);
+      this.threeInstance.scene.add(raycasterReceiver);
     });
   }
 

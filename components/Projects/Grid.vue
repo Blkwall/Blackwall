@@ -10,17 +10,28 @@ const emit = defineEmits<{
 const onClick = (image: string) => {
   emit("image-click", image);
 };
+
+const getWidth = (width: string) => {
+  switch (width) {
+    case "1/4":
+      return "md:col-span-3 col-span-12";
+    case "1/3":
+      return "md:col-span-4 col-span-12";
+    case "1/2":
+      return "md:col-span-6 col-span-12";
+    case "full":
+      return "md:col-span-12 col-span-12";
+    default:
+      return "md:col-span-12 col-span-12";
+  }
+};
 </script>
 
 <template>
-  <div class="grid px-4 mt-8 mb-16 gap-28 md:grid-cols-6">
+  <div class="grid px-4 mt-8 mb-16 gap-28 md:grid-cols-12">
     <div
       v-for="project in projects"
-      :class="{
-        'md:col-span-2': project.primary.width === '1/3',
-        'md:col-span-3': project.primary.width === '1/2',
-        'md:col-span-6': project.primary.width.toLowerCase() === 'full',
-      }"
+      :class="getWidth(project.primary.width)"
       :key="project.id"
     >
       <ProjectsItemVideo

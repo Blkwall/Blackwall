@@ -30,6 +30,7 @@ export class SceneObject {
   ratio: number;
   layers: number;
   object: Group;
+  raycasterReceiver: Mesh;
   gap: number;
   direction: Vector3 = new Vector3(0, 0, 0);
   alpha: number = 0;
@@ -59,6 +60,7 @@ export class SceneObject {
     this.index = index;
     // draw object
     this.object = this.drawOject();
+    this.raycasterReceiver = this.drawRaycasterReceiver();
   }
 
   get getHeight() {
@@ -94,6 +96,16 @@ export class SceneObject {
     return group;
   }
 
+  drawRaycasterReceiver() {
+    const group = new Group();
+    const geometry = new PlaneGeometry(this.size, this.size * this.ratio);
+    const material = new MeshBasicMaterial({ transparent: true, opacity: 0 });
+    const mesh = new Mesh(geometry, material);
+    mesh.position.z += this.gap * 0.1;
+    group.add(mesh);
+    return group;
+  }
+
   raycasterLerp = new Vector3();
   update(progress: number, mousePosition: Vector2) {
     const distance = this.getWrappedProgress(this.alpha, progress);
@@ -102,27 +114,26 @@ export class SceneObject {
     const { lineVisible } = this.sceneManager.threeInstance.spiral;
     this.object.visible = 1 - mappedDistance < lineVisible;
 
-    // const { x, y } = mousePosition;
+    const { raycaster } = this.sceneManager.threeInstance;
+    const intersection = raycaster.intersectObject(this.raycasterReceiver)[0];
+
     const raycasterTilt = new Vector3();
-    // const lookAt = this.direction.clone().add(mousePos3d.multiplyScalar(0.1));
-    const intersection =
-      this.sceneManager.threeInstance.raycaster.intersectObject(this.object)[0];
     if (intersection && intersection.uv) {
-      const {
-        uv: { x, y },
-      } = intersection;
+      const { x, y } = intersection.uv;
       const mappedX = map(x, 0, 1, 0.5, -0.5);
       const mappedY = map(y, 0, 1, -0.5, 0.5);
       raycasterTilt.set(mappedX, mappedY, 0);
     } else {
       raycasterTilt.set(0, 0, 0);
     }
-    this.raycasterLerp.lerp(raycasterTilt, 0.1);
-    const lookAt = this.direction
-      .clone()
-      .add(this.raycasterLerp.multiplyScalar(1));
+
+    const lerpAmount = intersection ? 0.1 : 0.05;
+    this.raycasterLerp.lerp(raycasterTilt, lerpAmount);
+    const lerpScale = this.raycasterLerp.clone().multiplyScalar(0.95);
+    const lookAt = this.direction.clone().add(lerpScale);
 
     this.object.lookAt(lookAt);
+    this.raycasterReceiver.lookAt(this.direction);
   }
 
   public static isVideoTexture(texture: Texture | VideoTexture) {

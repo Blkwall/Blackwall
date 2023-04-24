@@ -2,6 +2,8 @@
 import { useStore } from "~~/store";
 
 const store = useStore();
+const route = useRoute();
+if (route.hash === "#projects") store.isProjects = true;
 const isProjects = computed(() => store.isProjects);
 </script>
 

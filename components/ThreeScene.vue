@@ -68,6 +68,7 @@ onMounted(async () => {
     home.value?.data.slices
   );
   await nextTick();
+  threeInstance.setIsProjects(props.isProjects);
   threeInstance.tick();
   isLoading.value = false;
 });

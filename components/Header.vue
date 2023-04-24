@@ -3,6 +3,9 @@ import { useStore } from "~~/store";
 
 const store = useStore();
 const contactOpen = ref(false);
+const router = useRouter();
+const route = useRoute();
+
 const onContactClick = () => {
   store.blurModalActive = true;
   contactOpen.value = true;
@@ -20,6 +23,15 @@ const onLogoClick = () => {
 watchEffect(() => {
   if (!store.blurModalActive) contactOpen.value = false;
 });
+
+watch(
+  () => store.isProjects,
+  () => {
+    if (store.isProjects) {
+      router.push({ hash: "#projects" });
+    } else router.push({ hash: "" });
+  }
+);
 </script>
 
 <template>
@@ -30,7 +42,9 @@ watchEffect(() => {
         class="absolute left-0 flex gap-4 p-6 tracking-wide text-white uppercase"
       >
         <div class="cursor-pointer button-hover" @click="onLogoClick">
-          Blackwall
+          <div class="w-40">
+            <SVGLogo />
+          </div>
         </div>
       </nav>
     </transition>
