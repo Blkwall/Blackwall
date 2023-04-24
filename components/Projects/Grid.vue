@@ -32,6 +32,7 @@ const getWidth = (width: string) => {
     <div
       v-for="project in projects"
       :class="getWidth(project.primary.width)"
+      class="flex items-center justify-center"
       :key="project.id"
     >
       <ProjectsItemVideo
