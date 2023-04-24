@@ -14,21 +14,21 @@ const onClick = (image: string) => {
 const getWidth = (width: string) => {
   switch (width) {
     case "1/4":
-      return "md:col-span-3 col-span-12";
+      return "md:col-span-3 col-span-1";
     case "1/3":
-      return "md:col-span-4 col-span-12";
+      return "md:col-span-4 col-span-1";
     case "1/2":
-      return "md:col-span-6 col-span-12";
+      return "md:col-span-6 col-span-1";
     case "full":
-      return "md:col-span-12 col-span-12";
+      return "md:col-span-12 col-span-1";
     default:
-      return "md:col-span-12 col-span-12";
+      return "md:col-span-12 col-span-1";
   }
 };
 </script>
 
 <template>
-  <div class="grid px-4 mt-8 mb-16 gap-28 md:grid-cols-12">
+  <div class="grid grid-cols-1 px-4 mt-8 mb-16 gap-28 md:grid-cols-12">
     <div
       v-for="project in projects"
       :class="getWidth(project.primary.width)"
