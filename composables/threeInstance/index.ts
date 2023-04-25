@@ -1,4 +1,12 @@
-import { Color, Raycaster, Scene, WebGLRenderer } from "three";
+import {
+  Color,
+  Mesh,
+  MeshBasicMaterial,
+  Raycaster,
+  Scene,
+  SphereGeometry,
+  WebGLRenderer,
+} from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 
 import Stats from "three/examples/jsm/libs/stats.module";
@@ -73,6 +81,12 @@ export class ThreeInstance {
       main: sequence_main,
       exit: sequence_exit,
     };
+
+    const mesh = new Mesh(
+      new SphereGeometry(0.25, 32, 32),
+      new MeshBasicMaterial({ color: 0xff0000 })
+    );
+    this.scene.add(mesh);
   }
 
   resize() {

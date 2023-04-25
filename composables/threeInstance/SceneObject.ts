@@ -8,6 +8,7 @@ import {
   MeshBasicMaterial,
   MultiplyBlending,
   PlaneGeometry,
+  SphereGeometry,
   Texture,
   Vector2,
   Vector3,
@@ -30,7 +31,7 @@ export class SceneObject {
   ratio: number;
   layers: number;
   object: Group;
-  raycasterReceiver: Mesh;
+  raycasterReceiver: Group;
   gap: number;
   direction: Vector3 = new Vector3(0, 0, 0);
   alpha: number = 0;
@@ -129,8 +130,7 @@ export class SceneObject {
 
     const lerpAmount = intersection ? 0.1 : 0.05;
     this.raycasterLerp.lerp(raycasterTilt, lerpAmount);
-    const lerpScale = this.raycasterLerp.clone().multiplyScalar(0.95);
-    const lookAt = this.direction.clone().add(lerpScale);
+    const lookAt = this.direction.clone().add(this.raycasterLerp);
 
     this.object.lookAt(lookAt);
     this.raycasterReceiver.lookAt(this.direction);
