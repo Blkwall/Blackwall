@@ -33,7 +33,7 @@ export class ThreeInstance {
 
   debugMode = hash === "#debug";
   sequences: { [key: string]: Animation };
-  activeSequenceKey: string = "main";
+  activeSequenceKey: string = "intro";
 
   isProjects: boolean = false;
   raycaster: Raycaster = new Raycaster();
