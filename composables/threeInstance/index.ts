@@ -81,12 +81,6 @@ export class ThreeInstance {
       main: sequence_main,
       exit: sequence_exit,
     };
-
-    const mesh = new Mesh(
-      new SphereGeometry(0.25, 32, 32),
-      new MeshBasicMaterial({ color: 0xff0000 })
-    );
-    this.scene.add(mesh);
   }
 
   resize() {

@@ -33,7 +33,6 @@ export class HelixCurve extends Curve<Vector3> {
     const y = b * t;
 
     // center point based on radius and height
-    const center = new Vector3(0, b / 2, 0);
     return point.set(x, y, z);
   }
 }
@@ -56,7 +55,7 @@ export class Spiral {
     });
 
     this.config = {
-      radius: 3.5,
+      radius: window.innerWidth > 768 ? 3.5 : 6,
       height: this.instance.sceneObjectManager.totalHeight,
     };
     this.helixCurve = new HelixCurve(this.config.radius, this.config.height);

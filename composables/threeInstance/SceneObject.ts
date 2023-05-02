@@ -1,6 +1,7 @@
 import {
   AdditiveBlending,
   Blending,
+  Box3,
   DoubleSide,
   FrontSide,
   Group,
@@ -60,12 +61,16 @@ export class SceneObject {
     this.size = sceneManager.objectSize;
     this.index = index;
     // draw object
+    if (this.ratio > 1) this.size = this.size * 0.8;
+    if (window.innerWidth < 768) this.size = this.size * 0.8;
     this.object = this.drawOject();
     this.raycasterReceiver = this.drawRaycasterReceiver();
   }
 
   get getHeight() {
     return this.size * this.ratio;
+    // const box = new Box3().setFromObject(this.object);
+    // return box.max.y - box.min.y;
   }
 
   makeMaterial(texture: Texture, blending: Blending) {

@@ -42,7 +42,7 @@ watch(
         class="absolute left-0 flex gap-4 p-6 tracking-wide text-white uppercase"
       >
         <div class="cursor-pointer button-hover" @click="onLogoClick">
-          <div class="w-40">
+          <div class="translate-y-[2px] w-32">
             <SVGLogo />
           </div>
         </div>

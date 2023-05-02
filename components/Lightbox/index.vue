@@ -13,7 +13,7 @@ const emit = defineEmits<{
   <!-- Wrapper -->
   <div class="flex flex-col items-center gap-4 bg-opacity-50 fill">
     <PrismicText
-      class="tracking-wide uppercase"
+      class="absolute tracking-wide uppercase left-6 md:relative md:left-0"
       :field="project.primary.caption"
     />
 

@@ -149,8 +149,8 @@ onBeforeRouteLeave(async (to, from) => {
           'bg-black': isLoading,
         }"
       >
-        <div class="grid w-full md:grid-cols-12">
-          <div class="col-span-6 md:col-start-4">
+        <div class="grid w-full sm:grid-cols-12">
+          <div class="col-span-6 sm:col-start-4">
             <SVGLogo
               class="w-full h-full px-24 transition-transform ease-in-out delay-1000"
               :style="{
