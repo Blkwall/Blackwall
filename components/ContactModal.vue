@@ -6,23 +6,11 @@ const store = useStore();
 
 <template>
   <div
-    class="absolute items-center justify-between hidden gap-8 p-12 uppercase lg:flex fill"
+    class="absolute flex flex-wrap items-center justify-between w-full h-full gap-8 p-12 text-center uppercase lg:flex-nowrap fill"
   >
-    <div class="text-center">Creative Duo</div>
-    <div class="text-center">Studio@blackwall.com</div>
-    <div class="text-center">Vimeo @blackwall</div>
-    <div class="text-center">Follow on Instagram</div>
-  </div>
-  <div
-    class="absolute flex flex-wrap w-full gap-8 p-12 uppercase lg:hidden fill"
-  >
-    <div class="flex items-center justify-between w-full">
-      <div class="text-center">Creative Duo</div>
-      <div class="text-center">Studio@blackwall.com</div>
-    </div>
-    <div class="flex items-center justify-between w-full">
-      <div class="text-center">Vimeo @blackwall</div>
-      <div class="text-center">Follow on Instagram</div>
-    </div>
+    <div class="w-full">Creative Duo</div>
+    <div class="w-full">Studio@blackwall.com</div>
+    <div class="w-full">Vimeo @blackwall</div>
+    <div class="w-full">Follow on Instagram</div>
   </div>
 </template>

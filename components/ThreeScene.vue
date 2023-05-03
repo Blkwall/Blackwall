@@ -34,7 +34,12 @@ const background_video = computed(() => {
   return home.value?.data.background_video;
 });
 
-const videos = home.value?.data.slices
+type VideoProps = {
+  url: string;
+  width: number;
+  height: number;
+};
+const videos: VideoProps[] = home.value?.data.slices
   .filter((slice: any) => slice.variation === "sceneObjectVideo")
   .map((slice: any) => {
     return {
@@ -94,7 +99,7 @@ onBeforeRouteLeave(async (to, from) => {
 <template>
   <div id="wrapper">
     <!-- Video Assets (Hidden) -->
-    <div v-for="video in videos" :key="video">
+    <div v-for="video in videos" :key="video.url">
       <video
         ref="video"
         crossorigin="anonymous"

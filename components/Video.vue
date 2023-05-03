@@ -32,7 +32,7 @@ onMounted(async () => {
   player.value = new Plyr(el.value, {
     hideControls: false,
     resetOnEnd: true,
-    controls: ["play", "play-large", "progress", "fullscreen"],
+    controls: ["play", "progress", "fullscreen"],
     debug: false,
     ratio: props.actualRatio ? undefined : "16:9",
     fullscreen: {
