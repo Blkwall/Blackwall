@@ -29,7 +29,7 @@ const getWidth = (width: string) => {
 
 <template>
   <div
-    class="grid grid-cols-1 gap-8 px-4 mt-8 mb-16 xl:gap-28 lg:grid-cols-12 sm:grid-cols-2"
+    class="grid grid-cols-1 gap-12 px-4 mt-8 mb-16 xl:gap-28 lg:grid-cols-12 sm:grid-cols-2"
   >
     <div
       v-for="project in projects"
