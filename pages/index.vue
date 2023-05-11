@@ -3,14 +3,24 @@ import { useStore } from "~~/store";
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 if (route.hash === "#projects") store.isProjects = true;
 const isProjects = computed(() => store.isProjects);
+
+const onClick = () => {
+  router.push({ hash: "#projects" });
+  store.isProjects = true;
+};
 </script>
 
 <template>
   <div class="">
     <Transition name="fade">
-      <ThreeScene v-show="!isProjects" :is-projects="isProjects" />
+      <ThreeScene
+        v-show="!isProjects"
+        :is-projects="isProjects"
+        @click="onClick"
+      />
     </Transition>
 
     <Transition name="fade">

@@ -61,8 +61,8 @@ export class SceneObject {
     this.size = sceneManager.objectSize;
     this.index = index;
     // draw object
-    if (this.ratio > 1) this.size = this.size * 0.8;
-    if (window.innerWidth < 768) this.size = this.size * 0.8;
+    if (this.ratio > 1) this.size = this.size * 0.7;
+    if (window.innerWidth < 768) this.size = this.size * 0.5;
     this.object = this.drawOject();
     this.raycasterReceiver = this.drawRaycasterReceiver();
   }

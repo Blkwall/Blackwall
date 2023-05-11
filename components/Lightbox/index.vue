@@ -36,21 +36,17 @@ const emit = defineEmits<{
     </div>
 
     <!-- Navigation -->
-    <div
-      class="fixed top-0 right-0 flex items-center w-1/3 h-full opacity-0 md:w-auto md:opacity-100 md:right-6"
-    >
+    <div class="fixed bottom-0 right-0 flex items-center w-auto md:h-full">
       <button
-        class="w-full h-full md:h-auto button-hover"
+        class="w-full h-full p-6 select-none md:h-auto button-hover"
         @click="() => emit('nav-next')"
       >
         NEXT
       </button>
     </div>
-    <div
-      class="fixed top-0 left-0 flex items-center w-1/3 h-full opacity-0 md:w-auto md:opacity-100 md:left-6"
-    >
+    <div class="fixed bottom-0 left-0 flex items-center w-auto md:h-full">
       <button
-        class="w-full h-full md:h-auto button-hover"
+        class="w-full h-full p-6 select-none md:h-auto button-hover"
         @click="() => emit('nav-prev')"
       >
         PREV

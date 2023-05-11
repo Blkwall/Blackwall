@@ -44,6 +44,7 @@ export class InputManager {
   lastPos = 0;
   touchAcceleration = 0;
   touchDelta = 0;
+
   onTouchStart(e: TouchEvent) {
     this.lastTouchY = e.touches[0].clientY;
     this.lastPos = this.current;
@@ -51,23 +52,30 @@ export class InputManager {
   }
 
   onTouchMove(e: TouchEvent) {
-    const delta = e.touches[0].clientY - this.lastTouchY;
-    this.current = this.lastPos - delta;
+    const delta = Math.max(
+      -window.innerHeight,
+      Math.min(e.touches[0].clientY - this.lastTouchY, window.innerHeight)
+    );
+    let current = this.lastPos - delta;
+    if (current < 0) current = this.total + current;
+    if (current > this.total) current = current - this.total;
+    this.current = current;
   }
 
   onTouchEnd(e: TouchEvent) {
-    const delta = (e.changedTouches[0].clientY - this.lastTouchY) * -1;
-    const halflife = Math.min(Math.abs(delta) / window.innerHeight, 1);
+    const delta = (e.changedTouches[0].clientY - this.lastTouchY) * -0.75;
+    const halflife = Math.min(Math.abs(delta) / window.innerHeight, 1) * 1.1;
     if (delta < 0) this.touchAcceleration = Math.min(delta, 10) * halflife;
     if (delta > 0) this.touchAcceleration = Math.max(delta, -10) * halflife;
     this.touchDelta = delta;
   }
+
   updateTouchMove() {
     if (Math.abs(this.touchAcceleration) < 0.1) return;
     this.current += this.touchAcceleration;
     if (this.current < 0) this.current = this.total;
     if (this.current > this.total) this.current = 0;
 
-    this.touchAcceleration *= 0.95;
+    this.touchAcceleration *= 0.9;
   }
 }
