@@ -6,6 +6,35 @@ import type * as prismic from "@prismicio/client";
 type Simplify<T> = {
     [KeyType in keyof T]: T[KeyType];
 };
+/** Content for Contact documents */
+interface ContactDocumentData {
+    /**
+     * Slice Zone field in *Contact*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<ContactDocumentDataSlicesSlice>;
+}
+/**
+ * Slice for *Contact → Slice Zone*
+ *
+ */
+type ContactDocumentDataSlicesSlice = TextSlice;
+/**
+ * Contact document from Prismic
+ *
+ * - **API ID**: `contact`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ContactDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<ContactDocumentData>, "contact", Lang>;
 /** Content for Home documents */
 interface HomeDocumentData {
     /**
@@ -86,7 +115,7 @@ type ProjectsDocumentDataSlicesSlice = ProjectSlice;
  * @typeParam Lang - Language API ID of the document.
  */
 export type ProjectsDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<ProjectsDocumentData>, "projects", Lang>;
-export type AllDocumentTypes = HomeDocument | ProjectsDocument;
+export type AllDocumentTypes = ContactDocument | HomeDocument | ProjectsDocument;
 /**
  * Primary content in Project → Primary
  *
@@ -276,11 +305,50 @@ type SceneObjectSliceVariation = SceneObjectSliceDefault | SceneObjectSliceScene
  *
  */
 export type SceneObjectSlice = prismicT.SharedSlice<"scene_object", SceneObjectSliceVariation>;
+/**
+ * Primary content in Text → Primary
+ *
+ */
+interface TextSliceDefaultPrimary {
+    /**
+     * Text field in *Text → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: This is where it all begins...
+     * - **API ID Path**: text.primary.text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    text: prismicT.RichTextField;
+}
+/**
+ * Default variation for Text Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `Text`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type TextSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<TextSliceDefaultPrimary>, never>;
+/**
+ * Slice variation for *Text*
+ *
+ */
+type TextSliceVariation = TextSliceDefault;
+/**
+ * Text Shared Slice
+ *
+ * - **API ID**: `text`
+ * - **Description**: `Text`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type TextSlice = prismicT.SharedSlice<"text", TextSliceVariation>;
 declare module "@prismicio/client" {
     interface CreateClient {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { HomeDocumentData, HomeDocumentDataSlicesSlice, HomeDocument, ProjectsDocumentData, ProjectsDocumentDataSlicesSlice, ProjectsDocument, AllDocumentTypes, ProjectSliceDefaultPrimary, ProjectSliceDefaultItem, ProjectSliceDefault, ProjectSliceVariation, ProjectSlice, SceneObjectSliceDefaultPrimary, SceneObjectSliceDefault, SceneObjectSliceSceneObjectVideoPrimary, SceneObjectSliceSceneObjectVideo, SceneObjectSliceVariation, SceneObjectSlice };
+        export type { ContactDocumentData, ContactDocumentDataSlicesSlice, ContactDocument, HomeDocumentData, HomeDocumentDataSlicesSlice, HomeDocument, ProjectsDocumentData, ProjectsDocumentDataSlicesSlice, ProjectsDocument, AllDocumentTypes, ProjectSliceDefaultPrimary, ProjectSliceDefaultItem, ProjectSliceDefault, ProjectSliceVariation, ProjectSlice, SceneObjectSliceDefaultPrimary, SceneObjectSliceDefault, SceneObjectSliceSceneObjectVideoPrimary, SceneObjectSliceSceneObjectVideo, SceneObjectSliceVariation, SceneObjectSlice, TextSliceDefaultPrimary, TextSliceDefault, TextSliceVariation, TextSlice };
     }
 }

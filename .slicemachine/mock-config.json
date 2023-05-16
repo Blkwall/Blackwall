@@ -1,7 +1,8 @@
 {
   "_cts": {
     "home": {},
-    "projects": {}
+    "projects": {},
+    "contact": {}
   },
   "slices": {
     "SceneObject": {
@@ -16,6 +17,11 @@
       "default": {
         "primary": {},
         "items": {}
+      }
+    },
+    "Text": {
+      "default": {
+        "primary": {}
       }
     }
   }

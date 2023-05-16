@@ -1,16 +1,16 @@
 <script lang="tsx" setup>
-import { useStore } from "~~/store";
-
-const store = useStore();
+const { client } = usePrismic();
+const { data: contactData } = await useAsyncData("contact", () =>
+  client.getSingle("contact")
+);
 </script>
 
 <template>
   <div
     class="absolute flex flex-wrap items-center justify-between w-full h-full gap-8 p-12 text-center uppercase lg:flex-nowrap fill"
   >
-    <div class="w-full">Creative Duo</div>
-    <div class="w-full">Studio@blackwall.com</div>
-    <div class="w-full">Vimeo @blackwall</div>
-    <div class="w-full">Follow on Instagram</div>
+    <div class="w-full" v-for="slice in contactData?.data.slices">
+      <PrismicRichText :field="slice.primary.text" />
+    </div>
   </div>
 </template>

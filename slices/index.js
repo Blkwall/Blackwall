@@ -2,13 +2,16 @@
 
 import Project from './Project';
 import SceneObject from './SceneObject';
+import Text from './Text';
 
 export {
 	Project,
 	SceneObject,
+	Text,
 };
 
 export const components = {
 	project: Project,
 	scene_object: SceneObject,
+	text: Text,
 };
