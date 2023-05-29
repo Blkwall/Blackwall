@@ -130,7 +130,7 @@ export class SceneObjectManager {
         inputManager: { mousePosition },
       } = this.threeInstance;
 
-      object.update(progress, mousePosition);
+      object.update(progress, this.threeInstance.activeSequenceKey === "main");
     });
   }
 }

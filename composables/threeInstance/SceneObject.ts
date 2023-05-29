@@ -113,7 +113,8 @@ export class SceneObject {
   }
 
   raycasterLerp = new Vector3();
-  update(progress: number, mousePosition: Vector2) {
+  firstFrame = true;
+  update(progress: number, willLookAt: boolean) {
     const distance = this.getWrappedProgress(this.alpha, progress);
     const mappedDistance = map(distance, 0, 0.5, 1, 0);
 
@@ -123,22 +124,21 @@ export class SceneObject {
     const { raycaster } = this.sceneManager.threeInstance;
     const intersection = raycaster.intersectObject(this.raycasterReceiver)[0];
 
-    const raycasterTilt = new Vector3();
-    if (intersection && intersection.uv) {
-      const { x, y } = intersection.uv;
-      const mappedX = map(x, 0, 1, 0.5, -0.5);
-      const mappedY = map(y, 0, 1, -0.5, 0.5);
-      raycasterTilt.set(mappedX, mappedY, 0);
-    } else {
-      raycasterTilt.set(0, 0, 0);
-    }
+    const raycasterPoint = intersection
+      ? intersection.point
+      : this.object.position.clone();
 
-    const lerpAmount = intersection ? 0.1 : 0.05;
-    this.raycasterLerp.lerp(raycasterTilt, lerpAmount);
-    const lookAt = this.direction.clone().add(this.raycasterLerp);
+    this.raycasterLerp.lerp(raycasterPoint, 0.1);
+    if (this.firstFrame) this.raycasterLerp.copy(this.object.position);
 
-    this.object.lookAt(lookAt);
+    const center = new Vector3(0, this.object.position.y, 0);
+    const direction = this.object.position.clone().sub(center).normalize();
+
+    const lookAt = this.raycasterLerp.clone().add(direction);
+
+    this.object.lookAt(willLookAt ? lookAt : this.direction);
     this.raycasterReceiver.lookAt(this.direction);
+    if (this.firstFrame) this.firstFrame = false;
   }
 
   public static isVideoTexture(texture: Texture | VideoTexture) {
