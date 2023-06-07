@@ -63,7 +63,7 @@ watch(
             'text-gray-500': store.isProjects,
           }"
         >
-          Index
+          Gallery
         </div>
       </nav>
     </transition>

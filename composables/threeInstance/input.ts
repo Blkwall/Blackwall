@@ -45,16 +45,22 @@ export class InputManager {
   touchAcceleration = 0;
   touchDelta = 0;
 
+  touchStartTime: number = 0;
+  touchEndTime: number = 0;
+
   onTouchStart(e: TouchEvent) {
     this.lastTouchY = e.touches[0].clientY;
     this.lastPos = this.current;
     this.touchAcceleration = 0;
+    this.touchStartTime = Date.now();
   }
 
   onTouchMove(e: TouchEvent) {
+    const touch = e.touches[e.touches.length - 1].clientY;
+
     const delta = Math.max(
       -window.innerHeight,
-      Math.min(e.touches[0].clientY - this.lastTouchY, window.innerHeight)
+      Math.min(touch - this.lastTouchY, window.innerHeight)
     );
     let current = this.lastPos - delta;
     if (current < 0) current = this.total + current;
@@ -63,7 +69,12 @@ export class InputManager {
   }
 
   onTouchEnd(e: TouchEvent) {
-    const delta = (e.changedTouches[0].clientY - this.lastTouchY) * -0.75;
+    this.touchEndTime = Date.now();
+    const speed = Math.min(this.touchEndTime - this.touchStartTime, 600);
+    const speedAmount = 1 - speed / 600;
+
+    let delta = (e.changedTouches[0].clientY - this.lastTouchY) * -0.75;
+    delta = delta * speedAmount;
     const halflife = Math.min(Math.abs(delta) / window.innerHeight, 1) * 1.1;
     if (delta < 0) this.touchAcceleration = Math.min(delta, 10) * halflife;
     if (delta > 0) this.touchAcceleration = Math.max(delta, -10) * halflife;

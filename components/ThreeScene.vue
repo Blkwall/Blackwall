@@ -65,7 +65,7 @@ onMounted(async () => {
     return;
   }
 
-  await nextTick();
+  await new Promise((r) => setTimeout(r, 1000));
   const videos = [...document.querySelectorAll("video")];
   threeInstance = new ThreeInstance(
     el.value,

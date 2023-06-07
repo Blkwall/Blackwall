@@ -7,20 +7,16 @@ const router = useRouter();
 if (route.hash === "#projects") store.isProjects = true;
 const isProjects = computed(() => store.isProjects);
 
-const onClick = () => {
-  router.push({ hash: "#projects" });
-  store.isProjects = true;
-};
+// const onClick = () => {
+//   router.push({ hash: "#projects" });
+//   store.isProjects = true;
+// };
 </script>
 
 <template>
   <div class="">
     <Transition name="fade">
-      <ThreeScene
-        v-show="!isProjects"
-        :is-projects="isProjects"
-        @click="onClick"
-      />
+      <ThreeScene v-show="!isProjects" :is-projects="isProjects" />
     </Transition>
 
     <Transition name="fade">
@@ -30,4 +26,3 @@ const onClick = () => {
     </Transition>
   </div>
 </template>
-``

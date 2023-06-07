@@ -1,16 +1,8 @@
-import {
-  Color,
-  Mesh,
-  MeshBasicMaterial,
-  Raycaster,
-  Scene,
-  SphereGeometry,
-  WebGLRenderer,
-} from "three";
+import { Color, Raycaster, Scene, WebGLRenderer } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 
 import Stats from "three/examples/jsm/libs/stats.module";
-import { Assets, loadAssets } from "./assets";
+import { Assets } from "./assets";
 import { CameraManager } from "./camera";
 import { SceneObjectManager } from "./SceneObjects";
 import { Lights } from "./lights";
@@ -66,6 +58,7 @@ export class ThreeInstance {
     this.stats = Stats();
 
     window.addEventListener("resize", () => this.resize());
+    window.addEventListener("orientationchange", () => this.resize());
     this.resize();
     document.body.style.overflow = "hidden";
 
@@ -167,14 +160,6 @@ export class ThreeInstance {
     }
     this.animationId = requestAnimationFrame(() => this.tick());
   }
-
-  // static async load(
-  //   el: HTMLElement,
-  //   assets: string[],
-  //   videoEls: HTMLVideoElement[]
-  // ) {
-  //   return new ThreeInstance(el, await loadAssets(assets, videoEls));
-  // }
 
   destroy() {
     document.body.style.overflow = "auto";
