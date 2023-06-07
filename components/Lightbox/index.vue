@@ -26,7 +26,22 @@ const emit = defineEmits<{
         :url="project.primary.vimeo_link.url"
       />
 
-      <div v-if="!project.primary.vimeo_link.url">
+      <div
+        v-if="
+          !project.primary.vimeo_link.url && project.primary.video_preview.url
+        "
+      >
+        <LightboxVideo
+          v-if="project.primary.video_preview.url"
+          :url="project.primary.video_preview.url"
+        />
+      </div>
+
+      <div
+        v-if="
+          !project.primary.vimeo_link.url && !project.primary.video_preview.url
+        "
+      >
         <PrismicImage
           class="absolute top-0 left-0 object-contain w-full h-full"
           v-for="item in project.items"

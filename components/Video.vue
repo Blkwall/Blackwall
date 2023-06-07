@@ -1,6 +1,5 @@
 <script lang="tsx" setup>
 import Plyr from "plyr";
-import { emit } from "process";
 import { computed, onMounted, ref } from "vue";
 
 const props = defineProps<{
@@ -12,7 +11,7 @@ const emit = defineEmits<{
   (event: "ratio", ratio: number): void;
 }>();
 
-const el = ref<HTMLElement>();
+const el = ref<HTMLElement | HTMLVideoElement>();
 const wrapper = ref<HTMLElement>();
 const player = ref<any>();
 
@@ -28,7 +27,6 @@ const providerName = computed(() => {
 
 onMounted(async () => {
   if (!el.value) return;
-
   player.value = new Plyr(el.value, {
     hideControls: false,
     resetOnEnd: true,
@@ -51,6 +49,13 @@ onMounted(async () => {
           wrapper.value.style.width = window.innerHeight * ratio + "px";
         }
       }
+      if (providerName.value === "html5") {
+        if (el.value) {
+          const videoEl = el.value as HTMLVideoElement;
+          const ratio = videoEl.videoWidth / videoEl.videoHeight;
+          emit("ratio", ratio);
+        }
+      }
     }, 1000);
   });
 
@@ -65,7 +70,13 @@ onMounted(async () => {
 
 <template>
   <div ref="wrapper" class="relative mx-auto video-player">
+    <div v-if="providerName === 'html5'">
+      <video ref="el" playsinline controls autoplay>
+        <source :src="url" type="video/mp4" />
+      </video>
+    </div>
     <div
+      v-else
       ref="el"
       :data-plyr-provider="providerName"
       :data-plyr-embed-id="url"

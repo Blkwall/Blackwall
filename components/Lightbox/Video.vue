@@ -19,7 +19,10 @@ const onReize = () => {
     const maxHeight = window.innerHeight - 140;
     // change video.value width to fit the screen using the aspect-ratio
     if (ratio.value !== 0) {
-      const width = Math.min(maxHeight * ratio.value, window.innerWidth);
+      const width = Math.min(
+        maxHeight * ratio.value,
+        window.innerWidth - (window.innerWidth > 768 ? 180 : 0)
+      );
       video.value.style.width = Math.min(width, maxHeight * ratio.value) + "px";
       videoReady.value = true;
     }
