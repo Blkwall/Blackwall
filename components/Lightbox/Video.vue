@@ -8,13 +8,17 @@ const ratio = ref(0);
 
 const onRatio = (val: number) => {
   ratio.value = val;
-  onReize();
-  window.addEventListener("resize", onReize);
+  onResize();
 };
+
+onMounted(() => {
+  onResize();
+  window.addEventListener("resize", onResize);
+});
 
 const videoReady = ref(false);
 
-const onReize = () => {
+const onResize = () => {
   if (video.value) {
     const maxHeight = window.innerHeight - 140;
     // change video.value width to fit the screen using the aspect-ratio
@@ -27,10 +31,11 @@ const onReize = () => {
       videoReady.value = true;
     }
   }
+  console.log("ratio", ratio.value);
 };
 
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", onReize);
+  window.removeEventListener("resize", onResize);
 });
 </script>
 

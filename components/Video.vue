@@ -40,7 +40,7 @@ onMounted(async () => {
 
   player.value.on("ready", () => {
     setTimeout(() => {
-      if (player.value.embed?.ratio && props.actualRatio) {
+      if (player.value.embed?.ratio) {
         const [width, height] = player.value.embed.ratio;
         const ratio = width / height;
         emit("ratio", ratio);
@@ -49,6 +49,11 @@ onMounted(async () => {
           wrapper.value.style.width = window.innerHeight * ratio + "px";
         }
       }
+
+      if (!player.value.embed?.ratio) {
+        emit("ratio", 16 / 9);
+      }
+
       if (providerName.value === "html5") {
         if (el.value) {
           const videoEl = el.value as HTMLVideoElement;
