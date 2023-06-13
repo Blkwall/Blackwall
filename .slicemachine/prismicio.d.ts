@@ -161,6 +161,16 @@ interface ProjectSliceDefaultPrimary {
      *
      */
     video_preview: prismicT.LinkToMediaField;
+    /**
+     * Video Preview Poster field in *Project → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.primary.video_preview_poster
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    video_preview_poster: prismicT.ImageField<never>;
 }
 /**
  * Item in Project → Items

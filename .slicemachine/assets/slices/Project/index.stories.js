@@ -18,7 +18,7 @@ export const _Default = () => ({
   },
   data() {
     return {
-      mock: {"variation":"default","version":"sktwi1xtmkfgx8626","items":[{"image":{"dimensions":{"width":4172,"height":4000},"alt":null,"copyright":null,"url":"https://images.unsplash.com/photo-1586952518485-11b180e92764"}}],"primary":{"width":"Full","caption":[{"type":"paragraph","text":"Aute ad excepteur cupidatat labore exercitation est cupidatat. Incididunt cillum elit ut labore deserunt deserunt nulla reprehenderit dolor eu nostrud est.","spans":[]}],"vimeo_link":{"link_type":"Web","url":"https://prismic.io"},"video_preview":{"link_type":"Media","name":"mock","kind":"image","url":"https://source.unsplash.com/random","size":"10kB"}},"id":"_Default","slice_type":"project"}
+      mock: {"variation":"default","version":"sktwi1xtmkfgx8626","items":[{"image":{"dimensions":{"width":4172,"height":4000},"alt":null,"copyright":null,"url":"https://images.unsplash.com/photo-1586952518485-11b180e92764"}}],"primary":{"width":"Full","caption":[{"type":"paragraph","text":"Aute ad excepteur cupidatat labore exercitation est cupidatat. Incididunt cillum elit ut labore deserunt deserunt nulla reprehenderit dolor eu nostrud est.","spans":[]}],"vimeo_link":{"link_type":"Web","url":"https://prismic.io"},"video_preview":{"link_type":"Media","name":"mock","kind":"image","url":"https://source.unsplash.com/random","size":"10kB"},"video_preview_poster":{"dimensions":{"width":5000,"height":4613},"alt":null,"copyright":null,"url":"https://images.unsplash.com/photo-1596195689404-24d8a8d1c6ea"}},"id":"_Default","slice_type":"project"}
     }
   },
   template: '<SliceZone :slices="[mock]" :resolver="resolve" />'

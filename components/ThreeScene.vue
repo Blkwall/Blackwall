@@ -1,12 +1,14 @@
 <script lang="tsx" setup>
 import { loadAssets } from "~~/composables/threeInstance/assets";
 import { ThreeInstance } from "~~/composables/threeInstance/index";
+import { useStore } from "~~/store";
 const { client } = usePrismic();
 
 const props = defineProps<{
   isProjects: boolean;
 }>();
 
+const store = useStore();
 const el = ref<HTMLElement>();
 const bgVideo = ref<HTMLVideoElement>();
 const isLoading = ref(true);
@@ -110,7 +112,7 @@ onBeforeRouteLeave(async (to, from) => {
         muted
         autoplay
         loop
-        playsinline="true"
+        playsinline
       >
         <source :src="video.url" type="video/mp4" />
       </video>
@@ -136,7 +138,7 @@ onBeforeRouteLeave(async (to, from) => {
           muted
           autoplay
           loop
-          playsinline="true"
+          playsinline
           class="object-cover w-full h-full"
         >
           <source :src="background_video.url" type="video/mp4" />

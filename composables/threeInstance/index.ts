@@ -12,6 +12,7 @@ import { InputManager } from "./input";
 import { Animation } from "./animation";
 import { sequence_intro, sequence_main } from "./Sequences";
 import { sequence_exit } from "./Sequences/exit";
+import { StoreDefinition } from "pinia";
 
 const hash = process.client ? window.location.hash : false;
 

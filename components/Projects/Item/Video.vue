@@ -1,30 +1,56 @@
 <script lang="tsx" setup>
-defineProps<{
+const props = defineProps<{
   url: string;
+  inView: boolean;
+  preview: string;
 }>();
-const loaded = ref(false);
-const video = ref<HTMLVideoElement>();
 
-onMounted(async () => {
-  loaded.value = true;
-});
+const video = ref<HTMLVideoElement>();
+const inViewTimer = ref<NodeJS.Timeout | null>(null);
+const inViewLocal = ref(false);
+
+watch(
+  () => props.inView,
+  () => {
+    if (props.inView) {
+      inViewTimer.value = setTimeout(async () => {
+        inViewLocal.value = true;
+        await nextTick();
+        video.value?.play();
+      }, 500);
+    } else {
+      inViewLocal.value = false;
+      if (inViewTimer.value) clearTimeout(inViewTimer.value);
+    }
+  }
+);
 </script>
 
 <template>
-  <div class="cursor-pointer">
-    <video
-      ref="video"
-      class="transition-all duration-500"
+  <div class="relative cursor-pointer">
+    <prismic-image
       :class="{
-        'opacity-0': !loaded,
-        'opacity-100': loaded,
+        'opacity-0': inViewLocal,
+        'opacity-100': !inViewLocal,
       }"
-      muted
-      autoplay
-      playsinline
-      loop
+      class="w-full"
+      :field="preview"
+    />
+
+    <div
+      v-if="inViewLocal"
+      class="absolute top-0 left-0 flex items-center justify-center w-full h-full"
     >
-      <source :src="url" type="video/mp4" />
-    </video>
+      <video
+        class="absolute top-0 z-10 w-full h-full"
+        ref="video"
+        muted
+        playsinline
+        autoplay
+        loop
+      >
+        <source :src="url" type="video/mp4" />
+      </video>
+    </div>
   </div>
 </template>

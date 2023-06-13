@@ -48,6 +48,14 @@
             "placeholder": "",
             "select": "media"
           }
+        },
+        "video_preview_poster": {
+          "type": "Image",
+          "config": {
+            "label": "Video Preview Poster",
+            "constraint": {},
+            "thumbnails": []
+          }
         }
       },
       "items": {

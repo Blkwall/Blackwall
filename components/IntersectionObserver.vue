@@ -1,20 +1,33 @@
 <script lang="tsx" setup>
 const inView = ref(false);
 const el = ref<HTMLElement | null>(null);
+const observer = ref<IntersectionObserver | null>(null);
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    inView.value = entries[0].isIntersecting;
-  },
-  { threshold: 0.5, rootMargin: `0px 0px ${window.innerHeight}px  0px` }
+watch(
+  () => el.value,
+  () => {
+    if (!el.value) return;
+    observer.value?.observe(el.value);
+  }
 );
 
 onMounted(() => {
-  observer.observe(el.value!);
+  if (!el.value) return;
+  observer.value = new IntersectionObserver(
+    (entries) => {
+      inView.value = entries[0].isIntersecting;
+    },
+    {
+      // root: document.body,
+      rootMargin: `0px 0px ${window.innerHeight * 0.5}px 0px`,
+      threshold: 0.5,
+    }
+  );
+  observer.value.observe(el.value);
 });
 
 onUnmounted(() => {
-  observer.disconnect();
+  observer.value?.disconnect();
 });
 </script>
 

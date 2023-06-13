@@ -5,5 +5,6 @@ export const useStore = defineStore("store", {
     blurModalActive: false,
     blurModalEl: null as null | HTMLElement,
     isProjects: false,
+    loadedThree: false,
   }),
 });

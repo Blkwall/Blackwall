@@ -38,14 +38,13 @@ const getWidth = (width: string) => {
       :key="project.id"
     >
       <IntersectionObserver v-slot="{ inView }">
-        <div v-if="project.primary.video_preview.url">
-          <ProjectsItemVideo
-            v-if="inView"
-            :url="project.primary.video_preview.url"
-            @click="onClick(project)"
-          />
-          <div v-else class="block w-full bg-white h-72"></div>
-        </div>
+        <ProjectsItemVideo
+          v-if="project.primary.video_preview.url"
+          :url="project.primary.video_preview.url"
+          :preview="project.primary.video_preview_poster"
+          @click="onClick(project)"
+          :in-view="inView"
+        />
 
         <ProjectsItemImage
           v-for="image in project.items.slice(0, 1)"

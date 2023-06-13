@@ -41,7 +41,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="video" class="w-full mx-auto overflow-hidden">
-    <Video
+    <MediaVideo
       ref="video"
       class="w-full transition-opacity duration-300 opacity-0 delay-50"
       :class="{ 'opacity-100': videoReady }"
