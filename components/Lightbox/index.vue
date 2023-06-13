@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-defineProps<{
+const props = defineProps<{
   project: any;
 }>();
 
@@ -7,11 +7,24 @@ const emit = defineEmits<{
   (event: "nav-next"): void;
   (event: "nav-prev"): void;
 }>();
+
+const projectReady = ref(true);
+watch(
+  () => props.project,
+  async () => {
+    projectReady.value = false;
+    await nextTick();
+    projectReady.value = true;
+  }
+);
 </script>
 
 <template>
   <!-- Wrapper -->
-  <div class="flex flex-col items-center gap-4 bg-opacity-50 fill">
+  <div
+    v-if="projectReady"
+    class="flex flex-col items-center gap-4 bg-opacity-50 fill"
+  >
     <PrismicText
       class="absolute tracking-wide uppercase left-6 md:relative md:left-0"
       :field="project.primary.caption"
