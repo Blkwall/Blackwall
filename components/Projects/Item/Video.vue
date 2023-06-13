@@ -28,21 +28,14 @@ watch(
 
 <template>
   <div class="relative cursor-pointer">
-    <prismic-image
-      :class="{
-        'opacity-0': inViewLocal,
-        'opacity-100': !inViewLocal,
-      }"
-      class="w-full"
-      :field="preview"
-    />
+    <prismic-image class="w-full" :field="preview" />
 
     <div
       v-if="inViewLocal"
-      class="absolute top-0 left-0 flex items-center justify-center w-full h-full"
+      class="absolute top-0 left-0 z-10 flex items-center justify-center w-full h-full"
     >
       <video
-        class="absolute top-0 z-10 w-full h-full"
+        class="absolute top-0 w-full h-full"
         ref="video"
         muted
         playsinline
