@@ -37,18 +37,23 @@ const getWidth = (width: string) => {
       class="flex items-center justify-center"
       :key="project.id"
     >
-      <ProjectsItemVideo
-        v-if="project.primary.video_preview.url"
-        :url="project.primary.video_preview.url"
-        @click="onClick(project)"
-      />
+      <IntersectionObserver v-slot="{ inView }">
+        <div v-if="project.primary.video_preview.url">
+          <ProjectsItemVideo
+            v-if="inView"
+            :url="project.primary.video_preview.url"
+            @click="onClick(project)"
+          />
+          <div v-else class="block w-full bg-white h-72"></div>
+        </div>
 
-      <ProjectsItemImage
-        v-for="image in project.items.slice(0, 1)"
-        :key="image.image.url"
-        :image="image.image"
-        @click="onClick(project)"
-      />
+        <ProjectsItemImage
+          v-for="image in project.items.slice(0, 1)"
+          :key="image.image.url"
+          :image="image.image"
+          @click="onClick(project)"
+        />
+      </IntersectionObserver>
     </div>
   </div>
 </template>
