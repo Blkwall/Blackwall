@@ -19,6 +19,8 @@ const onLeave = () => {
   // Remove scrollbar padding.
   document.body.style.paddingRight = "0px";
 };
+
+console.log("App.vue");
 </script>
 
 <template>
