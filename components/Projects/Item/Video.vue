@@ -2,7 +2,7 @@
 const props = defineProps<{
   url: string;
   inView: boolean;
-  preview: string;
+  preview: any;
 }>();
 
 const video = ref<HTMLVideoElement>();
