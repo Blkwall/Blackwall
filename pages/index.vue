@@ -16,7 +16,7 @@ const isProjects = computed(() => store.isProjects);
 <template>
   <div class="">
     <Transition name="fade">
-      <ThreeScene v-if="!isProjects" :is-projects="isProjects" />
+      <ThreeScene v-show="!isProjects" :is-projects="isProjects" />
     </Transition>
 
     <Transition name="fade">
